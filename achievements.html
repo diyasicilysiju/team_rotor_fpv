@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Archive | Rotor FPV</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Orbitron:wght@400;900&family=Inter:wght@300;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        :root {
+            --neon: #35B1C6;
+            --bg: #050505;
+            --card-bg: rgba(255, 255, 255, 0.03);
+        }
+
+        body {
+            background-color: var(--bg);
+            color: #fff;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            /* Technical Grid Background */
+            background-image: 
+                linear-gradient(rgba(53, 177, 198, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(53, 177, 198, 0.05) 1px, transparent 1px);
+            background-size: 100px 100px;
+        }
+
+        .achievements-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 5%;
+        }
+
+        .main-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            letter-spacing: 15px;
+            text-align: center;
+            margin-bottom: 80px;
+            text-transform: uppercase;
+            background: linear-gradient(to bottom, #fff, var(--neon));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 2 Events Per Line Grid */
+        .events-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .event-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .event-card:hover {
+            border-color: var(--neon);
+            background: rgba(53, 177, 198, 0.05);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Technical Corner Brackets */
+        .event-card::before, .event-card::after {
+            content: '';
+            position: absolute;
+            width: 10px; height: 10px;
+            border: 2px solid var(--neon);
+            opacity: 0.3;
+        }
+        .event-card::before { top: 15px; left: 15px; border-right: 0; border-bottom: 0; }
+        .event-card::after { bottom: 15px; right: 15px; border-left: 0; border-top: 0; }
+
+        .event-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .event-id {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            color: var(--neon);
+            opacity: 0.6;
+        }
+
+        .event-year {
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.7rem;
+            background: rgba(53, 177, 198, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .event-title {
+            font-family: 'Michroma', sans-serif;
+            font-size: 1.1rem;
+            margin: 0 0 15px 0;
+            line-height: 1.4;
+            color: #fff;
+        }
+
+        .event-desc {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #999;
+            margin: 0;
+        }
+
+        /* Everytime Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: 0.8s all ease;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Mobile Fix */
+        @media (max-width: 850px) {
+            .events-grid { grid-template-columns: 1fr; }
+            .main-title { font-size: 2.5rem; letter-spacing: 5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo-section">
+            <img src="images/logo.png" class="logo" alt="Rotor FPV">
+            <span class="brand-name">RotorFPV</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <div class="dropdown">
+                <span class="dropbtn">Team <i class="fa fa-caret-down"></i></span>
+                <div class="dropdown-content">
+                    <a href="team2026.html">2026</a>
+                    <a href="team2025.html">2025</a>
+                    <a href="team2024.html">2024</a>
+                </div>
+            </div>
+            <a href="gallery.html">Gallery</a>
+            <a href="sponsors.html">Sponsors</a>
+            <a href="achievements.html">Achievements</a>
+        </div>
+    </nav>
+
+    <div class="achievements-wrapper">
+        <h1 class="main-title">Achievements</h1>
+
+        <div class="events-grid">
+            
+            <div class="event-card reveal">
+                <div class="event-meta">
+                    <span class="event-id">LOG_015</span>
+                    <span class="event-year">2026</span>
+                </div>
+                <h3 class="event-title">ISDC 2026</h3>
+                <p class="event-desc">Secured the championship title at the International Space Drone Challenge at MIT,Manipal.</p>
+            </div>
+
+            <div class="event-card reveal">
+                <div class="event-meta">
+                    
+                    <span class="event-year">2025</span>
+                </div>
+                <h3 class="event-title">Drone Workshop</h3>
+                <p class="event-desc">Organized a Drone modelling workshop at Yantra 2025, VIT Vellore.</p>
+            </div>
+
+            <div class="event-card reveal">
+                <div class="event-meta">
+                   
+                    <span class="event-year">2025</span>
+                </div>
+                <h3 class="event-title">Aerorush 2025</h3>
+                <p class="event-desc">2nd Place victory at Pragyan at Trichy,TN.</p>
+            </div>
+
+            <div class="event-card reveal">
+                <div class="event-meta">
+                    
+                    <span class="event-year">2025</span>
+                </div>
+                <h3 class="event-title">ISDC BITS Goa</h3>
+                <p class="event-desc">1st Place in the International Space Drone Challenge. Optimized autonomous navigation systems.</p>
+            </div>
+
+            <div class="event-card reveal">
+                <div class="event-meta">
+                   
+                    <span class="event-year">2024</span>
+                </div>
+                <h3 class="event-title">Aerothon 2024</h3>
+                <p class="event-desc">Awarded 1st Place in Innovation. Recognized for pioneering hardware integration and 22nd overall national rank.</p>
+            </div>
+
+            <div class="event-card reveal">
+                <div class="event-meta">
+                    
+                    <span class="event-year">2023</span>
+                </div>
+                <h3 class="event-title">Cognizance '23 IITR</h3>
+                <p class="event-desc">2nd Position for Payload Dropping. Advanced autonomous delivery system deployment at IIT Roorkee.</p>
+            </div>
+
+            <div class="event-card reveal">
+                <div class="event-meta">
+                    
+                    <span class="event-year">2022</span>
+                </div>
+                <h3 class="event-title">Organized Multiple Events</h3>
+                <p class="event-desc">Successfully organized and executed multiple autonomous drone mapping and wing workshops.</p>
+            </div>
+
+            <div class="event-card reveal">
+                <div class="event-meta">
+                    
+                    <span class="event-year">2022</span>
+                </div>
+                <h3 class="event-title">Takshashila CIT</h3>
+                <p class="event-desc">Secured 2nd place in the elite FPV Racing category organized by Chennai Institute of Technology.</p>
+            </div>
+
+            <div class="event-card reveal">
+                <div class="event-meta">
+                    
+                    <span class="event-year">2021</span>
+                </div>
+                <h3 class="event-title">IDRL Techkriti IITK</h3>
+                <p class="event-desc">7th Rank overall and 1st in Beginner category at IIT Kanpur's premier drone racing event.</p>
+            </div>
+
+            <div class="event-card reveal">
+                <div class="event-meta">
+                   
+                    <span class="event-year">2021</span>
+                </div>
+                <h3 class="event-title">IDRL SAH Series 3</h3>
+                <p class="event-desc">Podium finish with 3rd place in the IDRL SAH Series 3.</p>
+            </div>
+
+            <div class="event-card reveal">
+                <div class="event-meta">
+                    
+                    <span class="event-year">2020</span>
+                </div>
+                <h3 class="event-title">D1 Asia Championship</h3>
+                <p class="event-desc">Our pilots successfully placed in 4th, 9th, and 10th positions in the Asia-wide drone racing circuit.</p>
+            </div>
+
+            <div class="event-card reveal">
+                <div class="event-meta">
+                    
+                    <span class="event-year">2020</span>
+                </div>
+                <h3 class="event-title">IDRL SAH National Series</h3>
+                <p class="event-desc">Secured 4th position nationally in the overall IDRL SAH season rankings.</p>
+            </div>
+
+        </div>
+    </div>
+
+        <footer class="main-footer">
+  <div class="footer-grid">
+
+    <div class="footer-section">
+      <h3>Saarika Rajen</h3>
+      <p class="contact-detail">+91-8919936428</p>
+      <p class="contact-title">Team Captain</p>
+    </div>
+
+    <div class="footer-section">
+      <h3>Vellore Institute of Technology</h3>
+      <p>Vellore, Tamil Nadu - 632014</p>
+    </div>
+
+    <div class="footer-section">
+        <h3>Contact Us</h3>
+      <a href="mailto:teamrotorfpv.vit@gmail.com" class="footer-link">teamrotorfpv.vit@gmail.com</a>
+      <a href="mailto:teamrotorfpv@vit.ac.in" class="footer-link">teamrotorfpv@vit.ac.in</a>
+    </div>
+
+  </div>
+
+  <div class="footer-branding">
+
+    <div class="brand-left">
+      <img src="images\white VIT-ROTOR.png" class="footer-logo" alt="Rotor FPV">
+      
+    </div>
+
+    <div class="social-links">
+      <a href="https://www.linkedin.com/company/team-rotorfpv" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+      <a href="https://www.instagram.com/teamrotorfpv" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+    </div>
+
+    <div class="brand-right">
+       <img src="images/vitlogo.png" class="partner-logo" alt="VIT">
+    </div>
+
+  </div>
+
+  <div class="footer-copyright">
+    <p>&copy; Copyright - Team Rotor FPV 2026 | Build.Fly.Crash.Repeat</p>
+  </div>
+
+</footer>
+
+    <script>
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementBottom = reveals[i].getBoundingClientRect().bottom;
+
+                if (elementTop < windowHeight - 50 && elementBottom > 0) {
+                    reveals[i].classList.add("active");
+                } else {
+                    reveals[i].classList.remove("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal();
+    </script>
+</body>
+</html>

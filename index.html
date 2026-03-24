@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotor FPV | Home</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;700&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* --- HOME PAGE SPECIFIC STYLING --- */
+        body { background-color: #000; color: #fff; margin: 0; overflow-x: hidden; }
+
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        #hero-slider-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            filter: brightness(0.3);
+        }
+        .hero-text h1 { 
+            font-family: 'Orbitron', sans-serif; 
+            font-size: clamp(2.5rem, 8vw, 5rem); 
+            letter-spacing: 10px; 
+            text-shadow: 0 0 20px rgba(53, 177, 198, 0.6);
+        }
+
+        /* About Section */
+        .about-section { padding: 100px 10%; background: #000; }
+        .about-section h2 { font-family: 'Michroma', sans-serif; color: #35B1C6; margin-bottom: 25px; }
+        .about-para { 
+            font-size: 1.1rem; 
+            line-height: 1.9; 
+            color: #ccc; 
+            max-width: 950px;
+            text-align: justify;
+        }
+
+        /* Achievement Block */
+        .achievement-container { padding: 40px 10%; background: #000; }
+        .achievement-block {
+            padding: 40px;
+            background: rgba(20, 20, 20, 0.6);
+            border: 1px solid rgba(53, 177, 198, 0.2);
+            border-left: 8px solid #35B1C6;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        .trophy-icon { font-size: 4rem; color: #FFD700; filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5)); }
+        .achieve-text h3 { font-family: 'Michroma', sans-serif; margin: 0; font-size: 1.4rem; }
+        .achieve-text p { margin: 8px 0 0; color: #35B1C6; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Gallery Slider */
+        .gallery-preview { padding: 100px 10%; text-align: center; background: #050505; }
+        .gallery-preview h2 { font-family: 'Michroma', sans-serif; margin-bottom: 40px; letter-spacing: 8px; }
+        
+        .slider-container {
+            width: 100%;
+            max-width: 1100px;
+            height: 600px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            background: #111;
+            border: 1px solid #333;
+        }
+        .slide {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 1;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        /* EVERYTIME Scroll Reveal Logic */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .achievement-block { flex-direction: column; text-align: center; }
+            .slider-container { height: 350px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo-section">
+            <img src="images/logo.png" class="logo" alt="Rotor FPV">
+            <span class="brand-name">RotorFPV</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <div class="dropdown">
+                <span class="dropbtn">Team <i class="fa fa-caret-down"></i></span>
+                <div class="dropdown-content">
+                    <a href="team2026.html">2026</a>
+                    <a href="team2025.html">2025</a>
+                    <a href="team2024.html">2024</a>
+                </div>
+            </div>
+            <a href="gallery.html">Gallery</a>
+            <a href="sponsors.html">Sponsors</a>
+            <a href="achievements.html">Achievements</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <img id="hero-slider-bg" src="images/hero1.jpg">
+        <div class="hero-text">
+            <h1>ROTOR FPV</h1>
+        </div>
+    </section>
+
+    <section class="about-section reveal">
+        <h2>About Team RotorFPV</h2>
+        <p class="about-para">
+            Team Rotor FPV is the first drone-specific team in VIT Vellore, formed in 2018 with the aim of developing a group of pilots aiming for national and international events. Composed of drone enthusiasts hustling together to fly high and beyond, the team has grown over the years to include 35 specialized pilots. We take pride in having nurtured the first female pilot of VIT and maintain a strong, ever-growing roster. Our focus remains dedicated to the cutting edge of aerial robotics, specializing in high-speed Racing drones, creative Freestyling, and complex Autonomous drone systems.
+        </p>
+    </section>
+
+    <div class="achievement-container">
+        <div class="achievement-block reveal">
+            <i class="fas fa-trophy trophy-icon"></i>
+            <div class="achieve-text">
+                <h3>1st Prize in ISDC '26</h3>
+                <p>MIT Manipal | Indian Solar Drone Championship</p>
+            </div>
+        </div>
+    </div>
+
+    <section class="gallery-preview reveal">
+        <h2>GALLERY</h2>
+        <div class="slider-container">
+            <img id="dynamic-slide" src="images/gallery/drone1.jpg" class="slide">
+        </div>
+    </section>
+
+        <footer class="main-footer">
+  <div class="footer-grid">
+
+    <div class="footer-section">
+      <h3>Saarika Rajen</h3>
+      <p class="contact-detail">+91-8919936428</p>
+      <p class="contact-title">Team Captain</p>
+    </div>
+
+    <div class="footer-section">
+      <h3>Vellore Institute of Technology</h3>
+      <p>Vellore, Tamil Nadu - 632014</p>
+    </div>
+
+    <div class="footer-section">
+        <h3>Contact Us</h3>
+      <a href="mailto:teamrotorfpv.vit@gmail.com" class="footer-link">teamrotorfpv.vit@gmail.com</a>
+      <a href="mailto:teamrotorfpv@vit.ac.in" class="footer-link">teamrotorfpv@vit.ac.in</a>
+    </div>
+
+  </div>
+
+  <div class="footer-branding">
+
+    <div class="brand-left">
+      <img src="images\white VIT-ROTOR.png" class="footer-logo" alt="Rotor FPV">
+      
+    </div>
+
+    <div class="social-links">
+      <a href="https://www.linkedin.com/company/team-rotorfpv" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+      <a href="https://www.instagram.com/teamrotorfpv" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+    </div>
+
+    <div class="brand-right">
+       <img src="images/vitlogo.png" class="partner-logo" alt="VIT">
+    </div>
+
+  </div>
+
+  <div class="footer-copyright">
+    <p>&copy; Copyright - Team Rotor FPV 2026 | Build.Fly.Crash.Repeat</p>
+  </div>
+
+</footer>
+
+    <script>
+        // --- 1. GALLERY DYNAMIC LOOP (Every 3 Seconds) ---
+        const totalImages = 5; // <--- UPDATE THIS to match your folder count
+        const folderPath = "images/gallery/";
+        const baseName = "drone";
+        const extension = ".jpg";
+        let currentIndex = 1;
+        
+        const galleryImg = document.getElementById('dynamic-slide');
+
+        function rotateGallery() {
+            // Fade Out
+            galleryImg.style.opacity = '0';
+
+            setTimeout(() => {
+                // Change Source
+                currentIndex = (currentIndex % totalImages) + 1;
+                galleryImg.src = folderPath + baseName + currentIndex + extension;
+                
+                // Fade In
+                galleryImg.style.opacity = '1';
+            }, 800); // Wait for fade out to finish
+        }
+        setInterval(rotateGallery, 3000);
+
+
+        // --- 2. EVERYTIME SCROLL REVEAL SCRIPT ---
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementBottom = reveals[i].getBoundingClientRect().bottom;
+                var elementVisible = 100;
+
+                // Adds class when entering, removes when leaving
+                if (elementTop < windowHeight - elementVisible && elementBottom > 0) {
+                    reveals[i].classList.add("active");
+                } else {
+                    reveals[i].classList.remove("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Run on load
+    </script>
+</body>
+</html>

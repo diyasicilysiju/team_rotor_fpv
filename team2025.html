@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team 2025 | Rotor FPV</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+<script defer src="js/script.js"></script>
+    <style>
+        /* --- GLOBAL & NAVIGATION --- */
+        body { 
+            margin: 0; 
+            background-color: #000; 
+            color: #fff; 
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* --- THE DYNAMIC PARALLAX ENGINE --- */
+        
+        .team-container {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* The Hero/Background Section */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: sticky;
+            top: 60px; /* Aligns with navbar height */
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        /* The main blurred-to-clear transition image */
+        .team-hero-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Placeholder: Replace with path to your high-res Full Team Photo */
+            background-image: url('images/full_team_2025.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: blur(0px) brightness(1); /* Starts clear and bright */
+            transform: scale(1); /* Basic scale */
+            transition: 0.2s ease-out; /* Smooth transition */
+            z-index: -1;
+        }
+
+        .team-year-header {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .team-year-header h1 {
+            font-family: 'Michroma', sans-serif;
+            font-size: clamp(3rem, 10vw, 6rem);
+            letter-spacing: 15px;
+            color: #fff;
+            text-shadow: 0 0 30px #35B1C6, 0 0 10px rgba(255,255,255,0.5);
+            margin: 0;
+        }
+
+        /* --- CONTENT LAYER --- */
+        
+        .content-area {
+            position: relative;
+            z-index: 10; /* Ensures content slides OVER the sticky hero */
+            background: linear-gradient(to bottom, transparent 0%, #000 30%); /* Smooth fade-in of solid content */
+            padding-top: 10vh; /* Adjust spacing as needed */
+            padding-bottom: 100px;
+        }
+
+        /* --- Leadership & Department HUD --- */
+        
+        .leads-section {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            width: 90%;
+            margin: 0 auto 60px;
+        }
+
+        .lead-card {
+            flex: 1;
+            min-width: 320px;
+            max-width: 450px;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .lead-pic {
+            width: 220px;
+            height: 220px;
+            border: 2px solid #35B1C6;
+            object-fit: cover;
+            margin-bottom: 20px;
+            filter: grayscale(1) brightness(0.8);
+            transition: 0.5s;
+        }
+
+        .lead-card:hover .lead-pic {
+            filter: grayscale(0) brightness(1);
+            box-shadow: 0 0 35px rgba(53, 177, 198, 0.6);
+        }
+
+        .lead-info h3 { font-family: 'Michroma', sans-serif; font-size: 1.25rem; margin: 10px 0; }
+        .role-tag { color: #35B1C6; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        .dept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            width: 92%;
+            margin: 0 auto;
+        }
+
+        .dept-box {
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .head-photo-wrapper {
+            width: 100%;
+            aspect-ratio: 1/1;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 15px;
+        }
+
+        .head-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(1) brightness(0.6);
+            transition: 0.5s;
+        }
+
+        .dept-box:hover .head-photo {
+            filter: grayscale(0) brightness(1);
+            transform: scale(1.05);
+        }
+
+        .dept-box:hover {
+            border-color: #35B1C6;
+            background: rgba(10, 10, 10, 0.95);
+        }
+
+        .head-name { font-family: 'Michroma', sans-serif; font-size: 0.95rem; margin: 10px 0 2px 0; }
+        .dept-label { font-size: 0.65rem; color: #AEE7EA; text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 10px; }
+
+        /* --- GLASS HUD CARDS --- */
+        .glass-panel {
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(53, 177, 198, 0.2);
+            border-left: 4px solid #35B1C6;
+            border-radius: 2px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-panel:hover {
+            transform: translateY(-5px);
+            border-color: #35B1C6;
+        }
+
+        
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+    <div class="logo-section">
+        <img src="images/logo.png" class="logo" alt="Rotor FPV Logo">
+        <span class="brand-name">RotorFPV</span>
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        
+        <div class="dropdown">
+    <span class="dropbtn">Team <i class="fa fa-caret-down"></i></span>
+    <div class="dropdown-content">
+        <a href="team2026.html">2026</a>
+        <a href="team2025.html">2025</a>
+        <a href="team2024.html">2024</a>
+    </div>
+</div>
+
+        <a href="gallery.html">Gallery</a>
+        <a href="sponsors.html">Sponsors</a>
+        <a href="achievements.html">Achievements</a>
+    </div>
+</nav>
+
+    <main class="team-container">
+        
+        <section class="hero-section">
+            <div class="team-hero-img"></div>
+            <header class="team-year-header">
+                <h1>TEAM 2025</h1>
+            </header>
+        </section>
+
+        <div class="content-area">
+            
+            <section class="leads-section">
+                <div class="lead-card glass-panel">
+                    
+                    <img src="images/saarika.jpeg" class="lead-pic" alt="Captain Saarika Rajen">
+                    <div class="lead-info">
+                        <h3>Saarika Rajen</h3>
+                        <p class="role-tag">Team Captain</p>
+                    </div>
+                </div>
+                <div class="lead-card glass-panel">
+                    
+                    <img src="images/priyangshu.jpeg" class="lead-pic" alt="Vice Captain Shamroz Khanum">
+                    <div class="lead-info">
+                        <h3>Priyangshu</h3>
+                        <p class="role-tag">Vice Captain</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="dept-grid">
+                
+                <div class="dept-box glass-panel">
+                    
+                    <div class="head-photo-wrapper"><img src="images/tarun.jpeg" class="head-photo" alt="Tarun"></div>
+                    <p class="head-name">Tarun</p>
+                    <p class="role-tag">Technical Head</p>
+                </div>
+
+                <div class="dept-box glass-panel">
+                    
+                    <div class="head-photo-wrapper"><img src="images/anushka.jpeg" class="head-photo" alt="Anushka"></div>
+                    <p class="head-name">Anushka</p>
+                    <p class="role-tag">Sim Head</p>
+                </div>
+
+                <div class="dept-box glass-panel">
+                    
+                    <div class="head-photo-wrapper"><img src="images/piyush.jpeg" class="head-photo" alt="Piyush"></div>
+                    <p class="head-name">Piyush</p>
+                    <p class="role-tag">Autonomous Head</p>
+                </div>
+
+                <div class="dept-box glass-panel">
+                    
+                    <div class="head-photo-wrapper"><img src="images/diya.jpeg" class="head-photo" alt="Diya"></div>
+                    <p class="head-name">Diya</p>
+                    <p class="role-tag">Coding Head</p>
+                </div>
+
+                <div class="dept-box glass-panel">
+                    
+                    <div class="head-photo-wrapper"><img src="images/anish.jpeg" class="head-photo" alt="Anish"></div>
+                    <p class="head-name">Anish</p>
+                    <p class="role-tag">Piloting Head</p>
+                </div>
+
+                <div class="dept-box glass-panel">
+                   
+                    <div class="head-photo-wrapper"><img src="images/aryan.jpeg" class="head-photo" alt="Aryan"></div>
+                    <p class="head-name">Aryan</p>
+                    <p class="role-tag">Publicity Head</p>
+                </div>
+
+                <div class="dept-box glass-panel">
+                    
+                    <div class="head-photo-wrapper"><img src="images/yash.jpeg" class="head-photo" alt="Yash"></div>
+                    <p class="head-name">Yash</p>
+                    <p class="role-tag">Management Head</p>
+                </div>
+
+                <div class="dept-box glass-panel">
+                    
+                    <div class="head-photo-wrapper"><img src="images/aadhithya.jpeg" class="head-photo" alt="Aadhithya"></div>
+                    <p class="head-name">Aadhitya</p>
+                    <p class="role-tag">Finance Head</p>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<footer class="main-footer">
+  <div class="footer-grid">
+
+    <div class="footer-section">
+      <h3>Saarika Rajen</h3>
+      <p class="contact-detail">+91-9886650687</p>
+      <p class="contact-title">Team Captain</p>
+    </div>
+
+    <div class="footer-section">
+      <h3>Vellore Institute of Technology</h3>
+      <p>Vellore, Tamil Nadu - 632014</p>
+    </div>
+
+    <div class="footer-section">
+        <h3>Contact Us</h3>
+      <a href="mailto:teamrotorfpv.vit@gmail.com" class="footer-link">teamrotorfpv.vit@gmail.com</a>
+      <a href="mailto:teamrotorfpv@vit.ac.in" class="footer-link">teamrotorfpv@vit.ac.in</a>
+    </div>
+
+  </div>
+
+  <div class="footer-branding">
+
+    <div class="brand-left">
+      <img src="images\white VIT-ROTOR.png" class="footer-logo" alt="Rotor FPV">
+      
+    </div>
+
+    <div class="social-links">
+      <a href="https://www.linkedin.com/company/team-rotorfpv" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+      <a href="https://www.instagram.com/teamrotorfpv" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+    </div>
+
+    <div class="brand-right">
+       <img src="images/vitlogo.png" class="partner-logo" alt="VIT">
+    </div>
+
+  </div>
+
+  <div class="footer-copyright">
+    <p>&copy; Copyright - Team Rotor FPV 2026 | Build.Fly.Crash.Repeat</p>
+  </div>
+
+</footer>
+
+    <script>
+        const hero = document.querySelector('.hero-section');
+        const heroImg = document.querySelector('.team-hero-img');
+        const heroText = document.querySelector('.team-year-header h1');
+
+        window.addEventListener('scroll', () => {
+            let scrollTop = window.pageYOffset;
+            let heroHeight = hero.offsetHeight;
+            let blurIntensity = Math.min((scrollTop / heroHeight) * 20, 15); // Dynamic blur value
+            let scaleValue = 1 + (scrollTop / heroHeight) * 0.1; // Dynamic scaling
+            let opacityValue = 1 - (scrollTop / heroHeight); // Dynamic opacity
+
+            // Applies the blur as you scroll
+            heroImg.style.filter = `blur(${blurIntensity}px) brightness(${0.5 + opacityValue * 0.5})`;
+            heroImg.style.transform = `scale(${scaleValue})`;
+
+            // Optional: Fade the 'TEAM OF 2025' text as you scroll
+            heroText.style.opacity = opacityValue;
+        });
+    </script>
+
+</body>
+</html>
