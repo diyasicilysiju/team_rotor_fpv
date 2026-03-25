@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | Team Rotor FPV</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .gallery-section {
+            padding: 80px 8%;
+            background: #0a0f1c;
+            color: white;
+            text-align: center;
+        }
+
+        .gallery-section h1 {
+            font-family: 'Michroma', sans-serif;
+            margin-bottom: 40px;
+            font-size: 32px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: 0.4s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 80%;
+            border-radius: 10px;
+        }
+
+        .lightbox span {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR (UNCHANGED) -->
+<nav class="navbar" id="navbar">
+    <div class="logo-section">
+        <img src="images/logo.png" class="logo">
+        <span class="brand-name">RotorFPV</span>
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+
+        <div class="dropdown">
+            <span class="dropbtn">Team <i class="fa fa-caret-down"></i></span>
+            <div class="dropdown-content">
+                <a href="team2026.html">2026</a>
+                <a href="team2025.html">2025</a>
+                <a href="team2024.html">2024</a>
+            </div>
+        </div>
+
+        <a href="gallery.html">Gallery</a>
+        <a href="sponsors.html">Sponsors</a>
+        <a href="achievements.html">Achievements</a>
+    </div>
+</nav>
+
+
+<!-- FOOTER (UNCHANGED) -->
+<footer class="main-footer">
+  <div class="footer-grid">
+
+    <div class="footer-section">
+      <h3>Saarika Rajen</h3>
+      <p class="contact-detail">+91-8919936428</p>
+      <p class="contact-title">Team Captain</p>
+    </div>
+
+    <div class="footer-section">
+      <h3>Vellore Institute of Technology</h3>
+      <p>Vellore, Tamil Nadu - 632014</p>
+    </div>
+
+    <div class="footer-section">
+        <h3>Contact Us</h3>
+      <a href="mailto:teamrotorfpv.vit@gmail.com" class="footer-link">teamrotorfpv.vit@gmail.com</a>
+      <a href="mailto:teamrotorfpv@vit.ac.in" class="footer-link">teamrotorfpv@vit.ac.in</a>
+    </div>
+
+  </div>
+
+  <div class="footer-branding">
+
+    <div class="brand-left">
+      <img src="images/white VIT-ROTOR.png" class="footer-logo">
+    </div>
+
+    <div class="social-links">
+      <a href="https://www.linkedin.com/company/team-rotorfpv"><i class="fab fa-linkedin"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+      <a href="https://www.instagram.com/teamrotorfpv"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+    </div>
+
+    <div class="brand-right">
+       <img src="images/vitlogo.png" class="partner-logo">
+    </div>
+
+  </div>
+
+  <div class="footer-copyright">
+    <p>&copy; Team Rotor FPV 2026 | Build.Fly.Crash.Repeat</p>
+  </div>
+</footer>
+
+</body>
+</html>
