@@ -19,21 +19,33 @@
         }
 
         /* Parallax Team Background */
+        /* Animated Liquid Gradient Background */
+        /* Stealth Deep Blue Animated Background */
         .about-parallax-bg {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            /* REPLACE with your actual team photo path */
-            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('images/team-background.jpg');
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
+            width: 100vw;
+            height: 100vh;
+            /* Using only dark, deep tones for a professional stealth look */
+            background: linear-gradient(135deg, #000000, #050A30, #1C449B, #000000);
+            background-size: 300% 300%;
+            animation: stealthMove 18s ease-in-out infinite;
             z-index: -1;
         }
 
+        /* Slow, smooth shifting logic */
+        @keyframes stealthMove {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
         .about-container {
             padding: 80px 10%;
             max-width: 1100px;
@@ -85,7 +97,7 @@
         .faculty-pic {
             width: 150px;
             height: 150px;
-            border: 2px solid #35B1C6;
+            border: 2px solid #041785;
             object-fit: cover;
             filter: grayscale(0.5);
         }
