@@ -3,71 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rotor FPV | Home</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;700&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+    <title>Team Rotor FPV | Home</title>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;700&family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 
     <style>
-        /* --- HOME PAGE SPECIFIC STYLING --- */
-        body { background-color: #000; color: #fff; margin: 0; overflow-x: hidden; }
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            font-family: 'Inter', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+        }
 
-        /* Hero Section */
+        /* HERO */
         .hero {
-            height: 80vh;
+            min-height: 100vh;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
+            overflow: hidden;
         }
-        #hero-slider-bg {
+
+        .hero-video {
             position: absolute;
+            inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: center center;
+            z-index: -2;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
             z-index: -1;
-            filter: brightness(0.3);
-        }
-        .hero-text h1 { 
-            font-family: 'Orbitron', sans-serif; 
-            font-size: clamp(2.5rem, 8vw, 5rem); 
-            letter-spacing: 10px; 
-            text-shadow: 0 0 20px rgba(53, 177, 198, 0.6);
         }
 
-        /* About Section */
-        .about-section { padding: 100px 10%; background: #000; }
-        .about-section h2 { font-family: 'Michroma', sans-serif; color: #35B1C6; margin-bottom: 25px; }
-        .about-para { 
-            font-size: 1.1rem; 
-            line-height: 1.9; 
-            color: #ccc; 
-            max-width: 950px;
+        .hero-text {
+            width: 100%;
+            padding: 0 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.7rem, 8vw, 5.4rem);
+            letter-spacing: 10px;
+            text-shadow: 0 0 20px rgba(53, 177, 198, 0.55);
+            margin: 0;
+        }
+
+        /* ACHIEVEMENT */
+        .achievement-container {
+            padding: 70px 10%;
+            background: #000;
+        }
+
+        .achievement-heading {
+            font-family: 'Michroma', sans-serif;
+            color: #35B1C6;
+            margin-bottom: 30px;
             text-align: justify;
+            text-align-last: center;
+            letter-spacing: 2px;
+            font-size: 1.3rem;
         }
 
-        /* Achievement Block */
-        .achievement-container { padding: 40px 10%; background: #000; }
         .achievement-block {
-            padding: 40px;
-            background: rgba(20, 20, 20, 0.6);
-            border: 1px solid rgba(53, 177, 198, 0.2);
+            padding: 36px;
+            background: rgba(20, 20, 20, 0.72);
+            border: 1px solid rgba(53, 177, 198, 0.18);
             border-left: 8px solid #35B1C6;
             display: flex;
             align-items: center;
-            gap: 30px;
+            gap: 28px;
+            border-radius: 10px;
         }
-        .trophy-icon { font-size: 4rem; color: #FFD700; filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5)); }
-        .achieve-text h3 { font-family: 'Michroma', sans-serif; margin: 0; font-size: 1.4rem; }
-        .achieve-text p { margin: 8px 0 0; color: #35B1C6; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Gallery Slider */
-        .gallery-preview { padding: 100px 10%; text-align: center; background: #050505; }
-        .gallery-preview h2 { font-family: 'Michroma', sans-serif; margin-bottom: 40px; letter-spacing: 8px; }
-        
+        .achievement-icon {
+            font-size: 3.8rem;
+            color: #35B1C6;
+            filter: drop-shadow(0 0 10px rgba(53, 177, 198, 0.35));
+            flex-shrink: 0;
+        }
+
+        .achieve-text h3 {
+            font-family: 'Michroma', sans-serif;
+            margin: 0;
+            font-size: 1.25rem;
+            text-align: justify;
+            text-align-last: center;
+        }
+
+        .achieve-text p {
+            margin: 12px 0 0;
+            color: #d8f7fb;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-align: justify;
+            text-align-last: center;
+            line-height: 1.7;
+        }
+
+        /* GALLERY PREVIEW */
+        .gallery-preview {
+            padding: 70px 10%;
+            background: #050505;
+            text-align: center;
+        }
+
+        .gallery-preview h2 {
+            font-family: 'Michroma', sans-serif;
+            color: #35B1C6;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+
         .slider-container {
             width: 100%;
             max-width: 1100px;
@@ -77,29 +139,108 @@
             overflow: hidden;
             background: #111;
             border: 1px solid #333;
+            border-radius: 14px;
         }
+
         .slide {
             width: 100%;
             height: 100%;
             object-fit: cover;
             opacity: 1;
-            transition: opacity 0.8s ease-in-out;
+            transition: opacity 0.5s ease-in-out;
+            display: block;
         }
 
-        /* EVERYTIME Scroll Reveal Logic */
+        /* REVEAL */
         .reveal {
             opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform: translateY(30px);
+            transition: all 0.8s ease;
         }
+
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
         }
+        .about-home {
+    padding: 80px 10%;
+    background: #050505;
+    text-align: center;
+}
 
-        @media (max-width: 768px) {
-            .achievement-block { flex-direction: column; text-align: center; }
-            .slider-container { height: 350px; }
+.about-home-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.about-heading {
+    font-family: 'Michroma', sans-serif;
+    color: #35B1C6;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+}
+
+.about-home p {
+    color: #ddd;
+    line-height: 1.8;
+    margin-bottom: 20px;
+
+    text-align: justify;
+    text-align-last: center;
+}
+
+        @media (max-width: 900px) {
+            .achievement-block {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .slider-container {
+                height: 420px;
+            }
+
+            .hero-text h1 {
+                letter-spacing: 6px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .achievement-container,
+            .gallery-preview {
+                padding: 50px 6%;
+            }
+
+            .slider-container {
+                height: 280px;
+            }
+
+            .hero-text h1 {
+                font-size: 2.3rem;
+                letter-spacing: 4px;
+            }
+            .achieve-text {
+    text-align: center;
+    max-width: 600px;
+    margin: auto;
+}
+
+            .achievement-icon {
+                text-align: justify;
+    text-align-last: center;
+                font-size: 3rem;
+            }
+
+            .achieve-text h3 {
+                font-size: 1rem;
+                text-align: justify;
+    text-align-last: center;
+            }
+
+            .achieve-text p {
+                font-size: 0.85rem;
+                text-align: justify;
+    text-align-last: center;
+            }
         }
     </style>
 </head>
@@ -107,12 +248,14 @@
 
     <nav class="navbar">
         <div class="logo-section">
-            <img src="images/logo.png" class="logo" alt="Rotor FPV">
+            <img src="images/logo.png" class="logo" alt="Rotor FPV Logo">
             <span class="brand-name">RotorFPV</span>
         </div>
+
         <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="about.html">About</a>
+
             <div class="dropdown">
                 <span class="dropbtn">Team <i class="fa fa-caret-down"></i></span>
                 <div class="dropdown-content">
@@ -121,6 +264,7 @@
                     <a href="team2024.html">2024</a>
                 </div>
             </div>
+
             <a href="gallery.html">Gallery</a>
             <a href="sponsors.html">Sponsors</a>
             <a href="achievements.html">Achievements</a>
@@ -128,129 +272,155 @@
     </nav>
 
     <section class="hero">
-        <img id="hero-slider-bg" src="images/hero1.jpg">
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="images/gallery/hv.mp4" type="video/mp4">
+        </video>
+
+        <div class="hero-overlay"></div>
+
         <div class="hero-text">
             <h1>ROTOR FPV</h1>
         </div>
     </section>
+    <section class="about-home">
+    <div class="about-home-container">
 
-    <section class="about-section reveal">
-        <h2>About Team RotorFPV</h2>
-        <p class="about-para">
-            Team Rotor FPV is the first drone-specific team in VIT Vellore, formed in 2018 with the aim of developing a group of pilots aiming for national and international events. Composed of drone enthusiasts hustling together to fly high and beyond, the team has grown over the years to include 35 specialized pilots. We take pride in having nurtured the first female pilot of VIT and maintain a strong, ever-growing roster. Our focus remains dedicated to the cutting edge of aerial robotics, specializing in high-speed Racing drones, creative Freestyling, and complex Autonomous drone systems.
+        <h2 class="about-heading reveal">About Team Rotor FPV</h2>
+
+        <p class="reveal">
+            Team Rotor FPV is a dedicated drone development team at VIT, Vellore,
+            focused on building high-performance FPV drones and advancing aerial
+            robotics. We specialize in drone design, assembly, and real-time flight testing.
         </p>
-    </section>
 
-    <div class="achievement-container">
+        <p class="reveal">
+            We work from <strong>GDN 129</strong>, where all our drones are designed and built.
+            Flight testing is carried out at <strong>SJT Ground</strong> and 
+            <strong>KC Lawn</strong>, ensuring optimal performance and real-world validation.
+        </p>
+
+    </div>
+</section>
+
+    <section class="achievement-container">
+        <h2 class="achievement-heading reveal">Recent Achievement</h2>
+
         <div class="achievement-block reveal">
-            <i class="fas fa-trophy trophy-icon"></i>
+            <i class="fas fa-medal achievement-icon"></i>
             <div class="achieve-text">
                 <h3>1st Prize in ISDC '26</h3>
-                <p>MIT Manipal | Indian Solar Drone Championship</p>
+                <p>MIT Manipal | Indian Space Drone Championship</p>
             </div>
-        </div>
-    </div>
-
-    <section class="gallery-preview reveal">
-        <h2>GALLERY</h2>
-        <div class="slider-container">
-            <img id="dynamic-slide" src="images/gallery/drone1.jpg" class="slide">
         </div>
     </section>
 
-        <footer class="main-footer">
-  <div class="footer-grid">
+    <section class="gallery-preview">
+        <h2 class="reveal">Gallery Preview</h2>
+        <div class="slider-container reveal">
+            <img id="dynamic-slide" class="slide" src="images/gallery/IMG_0140.jpg" alt="Rotor FPV Gallery Preview">
+        </div>
+    </section>
 
-    <div class="footer-section">
-      <h3>Saarika Rajen</h3>
-      <p class="contact-detail">+91-8919936428</p>
-      <p class="contact-title">Team Captain</p>
-    </div>
+    <footer class="main-footer">
+        <div class="footer-grid">
 
-    <div class="footer-section">
-      <h3>Vellore Institute of Technology</h3>
-      <p>Vellore, Tamil Nadu - 632014</p>
-    </div>
+            <div class="footer-section">
+                <h3>Saarika Rajen</h3>
+                <p class="contact-detail">+91-8919936428</p>
+                <p class="contact-title">Team Captain</p>
+            </div>
 
-    <div class="footer-section">
-        <h3>Contact Us</h3>
-      <a href="mailto:teamrotorfpv.vit@gmail.com" class="footer-link">teamrotorfpv.vit@gmail.com</a>
-      <a href="mailto:teamrotorfpv@vit.ac.in" class="footer-link">teamrotorfpv@vit.ac.in</a>
-    </div>
+            <div class="footer-section">
+                <h3>Vellore Institute of Technology</h3>
+                <p>Vellore, Tamil Nadu - 632014</p>
+            </div>
 
-  </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <a href="mailto:teamrotorfpv.vit@gmail.com" class="footer-link">teamrotorfpv.vit@gmail.com</a>
+                <a href="mailto:teamrotorfpv@vit.ac.in" class="footer-link">teamrotorfpv@vit.ac.in</a>
+            </div>
 
-  <div class="footer-branding">
+        </div>
 
-    <div class="brand-left">
-      <img src="images\white VIT-ROTOR.png" class="footer-logo" alt="Rotor FPV">
-      
-    </div>
+        <div class="footer-branding">
+            <div class="brand-left">
+                <img src="images/white VIT-ROTOR.png" class="footer-logo" alt="Rotor FPV">
+            </div>
 
-    <div class="social-links">
-      <a href="https://www.linkedin.com/company/team-rotorfpv" target="_blank"><i class="fab fa-linkedin"></i></a>
-      <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
-      <a href="https://www.instagram.com/teamrotorfpv" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
-    </div>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/company/team-rotorfpv" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.instagram.com/teamrotorfpv" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            </div>
 
-    <div class="brand-right">
-       <img src="images/vitlogo.png" class="partner-logo" alt="VIT">
-    </div>
+            <div class="brand-right">
+                <img src="images/vitlogo.png" class="partner-logo" alt="VIT">
+            </div>
+        </div>
 
-  </div>
-
-  <div class="footer-copyright">
-    <p>&copy; Copyright - Team Rotor FPV 2026 | Build.Fly.Crash.Repeat</p>
-  </div>
-
-</footer>
+        <div class="footer-copyright">
+            <p>&copy; Copyright - Team Rotor FPV 2026 | Build.Fly.Crash.Repeat</p>
+        </div>
+    </footer>
 
     <script>
-        // --- 1. GALLERY DYNAMIC LOOP (Every 3 Seconds) ---
-        const totalImages = 5; // <--- UPDATE THIS to match your folder count
-        const folderPath = "images/gallery/";
-        const baseName = "drone";
-        const extension = ".jpg";
-        let currentIndex = 1;
-        
-        const galleryImg = document.getElementById('dynamic-slide');
+        const galleryImages = [
+            "images/gallery/IMG_0140.jpg",
+            "images/gallery/IMG_0180.jpg",
+            "images/gallery/IMG_0498.jpg",
+            "images/gallery/IMG_0584.jpg",
+            "images/gallery/IMG_0618.jpg",
+            "images/gallery/IMG_2607.jpg",
+            "images/gallery/IMG_4783.jpg",
+            "images/gallery/IMG_9188.jpg",
+            "images/gallery/8b961473-098a-4eda-ad85-342ba0e51dd5.jpg",
+            "images/gallery/32ce7414-d73d-44b1-b535-875ac2e2c8d5.jpg",
+            "images/gallery/76e9dd2d-5185-495b-b354-3a7d26a061b8.jpg",
+            "images/gallery/892ae444-a4a9-48c3-b1eb-386413115c5a.jpg",
+            "images/gallery/958d9ce3-62ca-4a76-9b82-fca33dc751f3.jpg",
+            "images/gallery/a1d6ba2d-87ca-4de2-9e3e-6da9910f062a.jpg",
+            "images/gallery/a6615dbe-4520-430a-a768-b70a2aa3ccee.jpg",
+            "images/gallery/b3849de2-bad4-4684-93c4-f6741f1a553c.jpg",
+            "images/gallery/c56df41b-46f3-42b4-9d7b-5011a1420fcb.jpg",
+            "images/gallery/f5a4b82f-a170-4343-bd63-0830ee8e818e.jpg"
+        ];
+
+        let currentIndex = 0;
+        const galleryImg = document.getElementById("dynamic-slide");
+
+        galleryImg.src = galleryImages[currentIndex];
 
         function rotateGallery() {
-            // Fade Out
-            galleryImg.style.opacity = '0';
+            galleryImg.style.opacity = "0";
 
             setTimeout(() => {
-                // Change Source
-                currentIndex = (currentIndex % totalImages) + 1;
-                galleryImg.src = folderPath + baseName + currentIndex + extension;
-                
-                // Fade In
-                galleryImg.style.opacity = '1';
-            }, 800); // Wait for fade out to finish
+                currentIndex = (currentIndex + 1) % galleryImages.length;
+                galleryImg.src = galleryImages[currentIndex];
+                galleryImg.style.opacity = "1";
+            }, 500);
         }
-        setInterval(rotateGallery, 3000);
 
+        setInterval(rotateGallery, 8000);
 
-        // --- 2. EVERYTIME SCROLL REVEAL SCRIPT ---
-        function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementBottom = reveals[i].getBoundingClientRect().bottom;
-                var elementVisible = 100;
+        const reveals = document.querySelectorAll(".reveal");
 
-                // Adds class when entering, removes when leaving
-                if (elementTop < windowHeight - elementVisible && elementBottom > 0) {
-                    reveals[i].classList.add("active");
-                } else {
-                    reveals[i].classList.remove("active");
+        function revealOnScroll() {
+            reveals.forEach(item => {
+                const windowHeight = window.innerHeight;
+                const revealTop = item.getBoundingClientRect().top;
+                const revealPoint = 100;
+
+                if (revealTop < windowHeight - revealPoint) {
+                    item.classList.add("active");
                 }
-            }
+            });
         }
-        window.addEventListener("scroll", reveal);
-        reveal(); // Run on load
+
+        window.addEventListener("scroll", revealOnScroll);
+        revealOnScroll();
     </script>
+
 </body>
 </html>
