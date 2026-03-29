@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sponsors | Rotor FPV</title>
+    <meta name="description"
+        content="Meet the sponsors and partners who fuel Team Rotor FPV's mission. Support drone racing at VIT Vellore.">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Michroma&family=Orbitron:wght@400;900&family=Inter:wght@300;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        :root {
+            --neon: #00d4ff;
+            --gold: #D4AF37;
+            --silver: #C0C0C0;
+            --bronze: #CD7F32;
+            --bg: #020a1a;
+            --card-bg: rgba(10, 31, 74, 0.3);
+        }
+
+        body {
+            background-color: var(--bg);
+            color: #fff;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* === HERO BANNER === */
+        .sponsors-hero {
+            position: relative;
+            height: 50vh;
+            min-height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            background: radial-gradient(ellipse at center bottom, rgba(0, 170, 255, 0.1) 0%, transparent 70%);
+        }
+
+        .sponsors-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(rgba(53, 177, 198, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(53, 177, 198, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: 0.6;
+            animation: gridPulse 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes gridPulse {
+            from {
+                opacity: 0.3;
+            }
+
+            to {
+                opacity: 0.7;
+            }
+        }
+
+        .sponsors-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 120px;
+            background: linear-gradient(to top, var(--bg), transparent);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 6vw, 3.8rem);
+            letter-spacing: clamp(5px, 2vw, 15px);
+            text-transform: uppercase;
+            margin: 0;
+            background: linear-gradient(to bottom, #fff 30%, var(--neon));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: titleDrop 1s ease-out;
+        }
+
+        .hero-content p {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(0.8rem, 1.5vw, 1rem);
+            color: rgba(174, 231, 234, 0.6);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 12px;
+            animation: titleDrop 1s ease-out 0.2s both;
+        }
+
+        @keyframes titleDrop {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* === MAIN CONTENT === */
+        .sponsors-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 clamp(4%, 5%, 6%) 80px;
+        }
+
+        /* === SPONSOR TIER SECTION === */
+        .tier-section {
+            margin-bottom: clamp(50px, 8vw, 80px);
+        }
+
+        .tier-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 35px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .tier-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .tier-icon.title {
+            background: linear-gradient(135deg, rgba(53, 177, 198, 0.25), rgba(53, 177, 198, 0.05));
+            border: 1px solid rgba(53, 177, 198, 0.4);
+            color: var(--neon);
+        }
+
+        .tier-icon.gold {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(212, 175, 55, 0.05));
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            color: var(--gold);
+        }
+
+        .tier-icon.silver {
+            background: linear-gradient(135deg, rgba(192, 192, 192, 0.2), rgba(192, 192, 192, 0.05));
+            border: 1px solid rgba(192, 192, 192, 0.3);
+            color: var(--silver);
+        }
+
+        .tier-icon.bronze {
+            background: linear-gradient(135deg, rgba(205, 127, 50, 0.2), rgba(205, 127, 50, 0.05));
+            border: 1px solid rgba(205, 127, 50, 0.3);
+            color: var(--bronze);
+        }
+
+        .tier-label {
+            font-family: 'Michroma', sans-serif;
+            font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .tier-label.title {
+            color: var(--neon);
+        }
+
+        .tier-label.gold {
+            color: var(--gold);
+        }
+
+        .tier-label.silver {
+            color: var(--silver);
+        }
+
+        .tier-label.bronze {
+            color: var(--bronze);
+        }
+
+        /* === SPONSOR GRID === */
+        .sponsors-grid {
+            display: grid;
+            gap: clamp(18px, 2.5vw, 28px);
+        }
+
+        .sponsors-grid.title-grid {
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        }
+
+        .sponsors-grid.gold-grid {
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        }
+
+        .sponsors-grid.silver-grid,
+        .sponsors-grid.bronze-grid {
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        /* === SPONSOR CARD === */
+        .sponsor-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 6px;
+            padding: clamp(24px, 3vw, 36px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 16px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(8px);
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .sponsor-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .sponsor-card:hover::before {
+            opacity: 1;
+        }
+
+        .sponsor-card.title-card::before {
+            background: linear-gradient(90deg, transparent, var(--neon), transparent);
+        }
+
+        .sponsor-card.gold-card::before {
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        .sponsor-card.silver-card::before {
+            background: linear-gradient(90deg, transparent, var(--silver), transparent);
+        }
+
+        .sponsor-card.bronze-card::before {
+            background: linear-gradient(90deg, transparent, var(--bronze), transparent);
+        }
+
+        .sponsor-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .sponsor-card.title-card:hover {
+            background: rgba(53, 177, 198, 0.04);
+            border-color: rgba(53, 177, 198, 0.2);
+        }
+
+        .sponsor-card.gold-card:hover {
+            background: rgba(212, 175, 55, 0.04);
+            border-color: rgba(212, 175, 55, 0.2);
+        }
+
+        .sponsor-card.silver-card:hover {
+            background: rgba(192, 192, 192, 0.04);
+            border-color: rgba(192, 192, 192, 0.15);
+        }
+
+        .sponsor-card.bronze-card:hover {
+            background: rgba(205, 127, 50, 0.04);
+            border-color: rgba(205, 127, 50, 0.15);
+        }
+
+        /* Logo container */
+        .sponsor-logo-wrap {
+            width: 100%;
+            height: clamp(80px, 10vw, 120px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .sponsor-logo-wrap img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: brightness(0.85) contrast(1.1);
+            transition: filter 0.4s ease, transform 0.4s ease;
+        }
+
+        .sponsor-card:hover .sponsor-logo-wrap img {
+            filter: brightness(1) contrast(1);
+            transform: scale(1.05);
+        }
+
+        /* Placeholder for logos not yet available */
+        .sponsor-logo-placeholder {
+            width: 100%;
+            height: clamp(80px, 10vw, 120px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            font-family: 'Michroma', sans-serif;
+            font-size: clamp(1.2rem, 2vw, 1.6rem);
+            letter-spacing: 3px;
+            color: rgba(255, 255, 255, 0.5);
+            transition: border-color 0.3s ease;
+        }
+
+        .sponsor-card:hover .sponsor-logo-placeholder {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .sponsor-name {
+            font-family: 'Michroma', sans-serif;
+            font-size: clamp(0.8rem, 1.3vw, 0.95rem);
+            color: #fff;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        .sponsor-desc {
+            font-size: clamp(0.75rem, 1.1vw, 0.85rem);
+            color: #888;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .sponsor-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            color: var(--neon);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Michroma', sans-serif;
+            transition: color 0.3s ease, gap 0.3s ease;
+        }
+
+        .sponsor-link:hover {
+            color: #fff;
+            gap: 10px;
+        }
+
+        .sponsor-link i {
+            font-size: 0.65rem;
+            transition: transform 0.3s ease;
+        }
+
+        .sponsor-link:hover i {
+            transform: translateX(2px);
+        }
+
+        /* === CTA SECTION === */
+        .cta-section {
+            text-align: center;
+            padding: clamp(50px, 8vw, 80px) clamp(20px, 5%, 40px);
+            background: linear-gradient(to bottom, transparent, rgba(53, 177, 198, 0.03));
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: 20px;
+        }
+
+        .cta-section h2 {
+            font-family: 'Michroma', sans-serif;
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            color: var(--neon);
+            letter-spacing: 3px;
+            margin: 0 0 15px 0;
+        }
+
+        .cta-section p {
+            font-size: clamp(0.85rem, 1.3vw, 1rem);
+            color: #999;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.7;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            background: transparent;
+            border: 1.5px solid var(--neon);
+            color: var(--neon);
+            font-family: 'Michroma', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.4s var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--neon);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .cta-button:hover {
+            color: #000;
+            border-color: var(--neon);
+            box-shadow: 0 0 25px rgba(53, 177, 198, 0.25);
+        }
+
+        .cta-button:hover::before {
+            opacity: 1;
+        }
+
+        .cta-button i {
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover i {
+            transform: translateX(3px);
+        }
+
+        /* === SCROLL REVEAL === */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s var(--transition-smooth),
+                transform 0.7s var(--transition-smooth);
+            will-change: opacity, transform;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Stagger cards within grids */
+        .sponsors-grid .reveal:nth-child(1) {
+            transition-delay: 0s;
+        }
+
+        .sponsors-grid .reveal:nth-child(2) {
+            transition-delay: 0.08s;
+        }
+
+        .sponsors-grid .reveal:nth-child(3) {
+            transition-delay: 0.16s;
+        }
+
+        .sponsors-grid .reveal:nth-child(4) {
+            transition-delay: 0.24s;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .sponsors-hero {
+                height: 40vh;
+                min-height: 260px;
+            }
+
+            .sponsors-grid.title-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sponsors-grid.gold-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sponsors-grid.silver-grid,
+            .sponsors-grid.bronze-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .tier-header {
+                margin-bottom: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .sponsors-grid.silver-grid,
+            .sponsors-grid.bronze-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar" id="main-navbar">
+        <div class="logo-section">
+            <img src="images/logo.png" class="logo" alt="Rotor FPV">
+            <span class="brand-name">RotorFPV</span>
+        </div>
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <div class="dropdown">
+                <span class="dropbtn">Team <i class="fa fa-caret-down"></i></span>
+                <div class="dropdown-content">
+                    <a href="team2026.html">2026</a>
+                    <a href="team2025.html">2025</a>
+                    <a href="team2024.html">2024</a>
+                </div>
+            </div>
+            <a href="gallery.html">Gallery</a>
+            <a href="sponsors.html">Sponsors</a>
+            <a href="achievements.html">Achievements</a>
+        </div>
+        <div class="nav-overlay" id="nav-overlay"></div>
+    </nav>
+
+    <!-- Hero Banner -->
+    <section class="sponsors-hero">
+        <div class="hero-content">
+            <h1>Our Sponsors</h1>
+            <p>Fueling the future of drone racing</p>
+        </div>
+    </section>
+
+    <!-- Sponsor Tiers -->
+    <main class="sponsors-wrapper">
+
+        <!-- Title Sponsors -->
+        <section class="tier-section reveal">
+            <div class="tier-header">
+                <div class="tier-icon title"><i class="fas fa-crown"></i></div>
+                <span class="tier-label title">Title Sponsors</span>
+            </div>
+            <div class="sponsors-grid title-grid">
+
+                <div class="sponsor-card title-card reveal">
+                    <div class="sponsor-logo-placeholder">VIT</div>
+                    <h3 class="sponsor-name">VIT University</h3>
+                    <p class="sponsor-desc">Our institutional backbone — providing infrastructure, flight grounds, and
+                        research funding for all drone operations.</p>
+                    <a href="https://vit.ac.in" target="_blank" class="sponsor-link">Visit <i
+                            class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="sponsor-card title-card reveal">
+                    <div class="sponsor-logo-placeholder">ROTOR</div>
+                    <h3 class="sponsor-name">RotorGeeks</h3>
+                    <p class="sponsor-desc">Premium FPV components supplier — powering our racing rigs with
+                        cutting-edge motors, ESCs, and carbon frames.</p>
+                    <a href="#" class="sponsor-link">Visit <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Gold Sponsors -->
+        <section class="tier-section reveal">
+            <div class="tier-header">
+                <div class="tier-icon gold"><i class="fas fa-star"></i></div>
+                <span class="tier-label gold">Gold Sponsors</span>
+            </div>
+            <div class="sponsors-grid gold-grid">
+
+                <div class="sponsor-card gold-card reveal">
+                    <div class="sponsor-logo-placeholder">BF</div>
+                    <h3 class="sponsor-name">Betaflight</h3>
+                    <p class="sponsor-desc">Open-source flight controller firmware — the brain behind every race
+                        quad.</p>
+                    <a href="https://betaflight.com" target="_blank" class="sponsor-link">Visit <i
+                            class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="sponsor-card gold-card reveal">
+                    <div class="sponsor-logo-placeholder">TBS</div>
+                    <h3 class="sponsor-name">Team BlackSheep</h3>
+                    <p class="sponsor-desc">Long-range FPV video and control systems — extending our reach beyond
+                        the horizon.</p>
+                    <a href="https://www.team-blacksheep.com" target="_blank" class="sponsor-link">Visit <i
+                            class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="sponsor-card gold-card reveal">
+                    <div class="sponsor-logo-placeholder">GNB</div>
+                    <h3 class="sponsor-name">GNB Batteries</h3>
+                    <p class="sponsor-desc">High-performance LiPo packs — delivering explosive power for race-day
+                        performance.</p>
+                    <a href="#" class="sponsor-link">Visit <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Silver Sponsors -->
+        <section class="tier-section reveal">
+            <div class="tier-header">
+                <div class="tier-icon silver"><i class="fas fa-medal"></i></div>
+                <span class="tier-label silver">Silver Sponsors</span>
+            </div>
+            <div class="sponsors-grid silver-grid">
+
+                <div class="sponsor-card silver-card reveal">
+                    <div class="sponsor-logo-placeholder">ELRS</div>
+                    <h3 class="sponsor-name">ExpressLRS</h3>
+                    <p class="sponsor-desc">Ultra-low latency RC link protocol for precision control.</p>
+                </div>
+
+                <div class="sponsor-card silver-card reveal">
+                    <div class="sponsor-logo-placeholder">DJI</div>
+                    <h3 class="sponsor-name">DJI FPV Systems</h3>
+                    <p class="sponsor-desc">Digital FPV goggles and air units for crystal-clear race feeds.</p>
+                </div>
+
+                <div class="sponsor-card silver-card reveal">
+                    <div class="sponsor-logo-placeholder">FC</div>
+                    <h3 class="sponsor-name">FlyColor</h3>
+                    <p class="sponsor-desc">Reliable ESC and FC stacks built for competitive racing.</p>
+                </div>
+
+                <div class="sponsor-card silver-card reveal">
+                    <div class="sponsor-logo-placeholder">RDQ</div>
+                    <h3 class="sponsor-name">RaceDayQuads</h3>
+                    <p class="sponsor-desc">One-stop shop for FPV parts, tools, and accessories.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Bronze / Community Partners -->
+        <section class="tier-section reveal">
+            <div class="tier-header">
+                <div class="tier-icon bronze"><i class="fas fa-handshake"></i></div>
+                <span class="tier-label bronze">Community Partners</span>
+            </div>
+            <div class="sponsors-grid bronze-grid">
+
+                <div class="sponsor-card bronze-card reveal">
+                    <div class="sponsor-logo-placeholder">IDRL</div>
+                    <h3 class="sponsor-name">IDRL</h3>
+                    <p class="sponsor-desc">Indian Drone Racing League — our primary competitive platform.</p>
+                </div>
+
+                <div class="sponsor-card bronze-card reveal">
+                    <div class="sponsor-logo-placeholder">ISDC</div>
+                    <h3 class="sponsor-name">ISDC</h3>
+                    <p class="sponsor-desc">International Space Drone Challenge — pushing autonomous boundaries.</p>
+                </div>
+
+                <div class="sponsor-card bronze-card reveal">
+                    <div class="sponsor-logo-placeholder">V-FPV</div>
+                    <h3 class="sponsor-name">Velocidrone</h3>
+                    <p class="sponsor-desc">Professional FPV simulator for pilot training and practice.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section reveal">
+            <h2>Become a Sponsor</h2>
+            <p>Partner with VIT's premier drone racing team. Get your brand in front of the next generation of
+                aerospace engineers and competitive pilots.</p>
+            <a href="mailto:teamrotorfpv.vit@gmail.com" class="cta-button">
+                Get in Touch <i class="fas fa-arrow-right"></i>
+            </a>
+        </section>
+
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h3>Saarika Rajen</h3>
+                <p class="contact-detail">+91-8919936428</p>
+                <p class="contact-title">Team Captain</p>
+            </div>
+            <div class="footer-section">
+                <h3>Vellore Institute of Technology</h3>
+                <p>Vellore, Tamil Nadu - 632014</p>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <a href="mailto:teamrotorfpv.vit@gmail.com" class="footer-link">teamrotorfpv.vit@gmail.com</a>
+                <a href="mailto:teamrotorfpv@vit.ac.in" class="footer-link">teamrotorfpv@vit.ac.in</a>
+            </div>
+        </div>
+
+        <div class="footer-branding">
+            <div class="brand-left">
+                <img src="images/white VIT-ROTOR.png" class="footer-logo" alt="Rotor FPV">
+            </div>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/company/team-rotorfpv" target="_blank" aria-label="LinkedIn"><i
+                        class="fab fa-linkedin"></i></a>
+                <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.instagram.com/teamrotorfpv" target="_blank" aria-label="Instagram"><i
+                        class="fab fa-instagram"></i></a>
+                <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i
+                        class="fab fa-facebook-f"></i></a>
+            </div>
+            <div class="brand-right">
+                <img src="images/vitlogo.png" class="partner-logo" alt="VIT">
+            </div>
+        </div>
+
+        <div class="footer-copyright">
+            <p>&copy; Copyright - Team Rotor FPV 2026 | Build.Fly.Crash.Repeat</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- MOBILE NAV TOGGLE ---
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+        const navOverlay = document.getElementById('nav-overlay');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            navOverlay.classList.toggle('active');
+            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+        });
+
+        navOverlay.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+            navOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    navOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+        const dropdowns = document.querySelectorAll('.dropdown');
+        dropdowns.forEach(dd => {
+            dd.querySelector('.dropbtn').addEventListener('click', (e) => {
+                if (window.innerWidth <= 768) {
+                    e.stopPropagation();
+                    dd.classList.toggle('open');
+                }
+            });
+        });
+
+        // --- NAVBAR SCROLL EFFECT ---
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('main-navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // --- SCROLL REVEAL (Intersection Observer) ---
+        const observerOptions = {
+            threshold: 0.08,
+            rootMargin: '0px 0px -40px 0px'
+        };
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                } else {
+                    entry.target.classList.remove('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            revealObserver.observe(el);
+        });
+    </script>
+</body>
+
+</html>
