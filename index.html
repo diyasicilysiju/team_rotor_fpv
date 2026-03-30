@@ -4,22 +4,200 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team Rotor FPV | Home</title>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;700&family=Orbitron:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Orbitron:wght@400;600;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
+        /* ───── RESET & BASE ───── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --cyan: #35B1C6;
+            --cyan-glow: rgba(53,177,198,0.55);
+            --cyan-dim: rgba(53,177,198,0.15);
+            --cyan-border: rgba(53,177,198,0.3);
+            --white: #ffffff;
+            --off-white: #d8f7fb;
+            --dark: #000000;
+            --dark-panel: rgba(10,10,10,0.85);
+            --dark-card: rgba(15,20,30,0.8);
+        }
+
+        html { scroll-behavior: smooth; }
+
         body {
             margin: 0;
             padding: 0;
             background: #000;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Space Mono', monospace;
             color: #fff;
             overflow-x: hidden;
         }
 
-        /* HERO */
+        /* ───── PARTICLES CANVAS ───── */
+        #particle-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        /* ───── NAVBAR ───── */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            height: 70px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--cyan-border);
+            transition: background 0.3s;
+        }
+
+        .navbar.scrolled { background: rgba(0,0,0,0.92); }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px var(--cyan));
+        }
+
+        .brand-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: var(--white);
+            text-shadow: 0 0 12px var(--cyan-glow);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links a, .dropbtn {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 4px;
+            transition: all 0.25s;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .nav-links a:hover, .dropbtn:hover {
+            color: var(--cyan);
+            background: var(--cyan-dim);
+        }
+
+        .dropdown { position: relative; }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.95);
+            border: 1px solid var(--cyan-border);
+            border-radius: 8px;
+            overflow: hidden;
+            min-width: 120px;
+            backdrop-filter: blur(20px);
+        }
+
+        .dropdown:hover .dropdown-content { display: block; }
+
+        .dropdown-content a {
+            display: block;
+            padding: 10px 20px;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.7);
+            transition: all 0.2s;
+        }
+
+        .dropdown-content a:hover {
+            color: var(--cyan);
+            background: var(--cyan-dim);
+            padding-left: 28px;
+        }
+
+        /* HAMBURGER */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 8px;
+        }
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--cyan);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 70px; left: 0; right: 0;
+            background: rgba(0,0,0,0.97);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--cyan-border);
+            z-index: 999;
+            padding: 20px 0;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .mobile-menu.open { display: flex; }
+        .mobile-menu a, .mobile-menu .m-year {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            padding: 12px 8%;
+            transition: all 0.2s;
+            border-left: 2px solid transparent;
+        }
+        .mobile-menu a:hover { color: var(--cyan); border-left-color: var(--cyan); background: var(--cyan-dim); }
+        .mobile-menu .sub-label {
+            font-size: 0.6rem;
+            color: var(--cyan);
+            padding: 8px 8% 4px;
+            letter-spacing: 3px;
+            opacity: 0.7;
+        }
+
+        /* ───── HERO ───── */
         .hero {
             min-height: 100vh;
             position: relative;
@@ -36,391 +214,1003 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center center;
+            object-position: center;
             z-index: -2;
         }
 
         .hero-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(0, 0, 0, 0.45);
+            background: linear-gradient(
+                to bottom,
+                rgba(0,0,0,0.3) 0%,
+                rgba(0,0,0,0.5) 60%,
+                rgba(0,0,0,0.9) 100%
+            );
             z-index: -1;
         }
 
-        .hero-text {
-            width: 100%;
+        /* Scanline effect */
+        .hero-scanlines {
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.04) 2px,
+                rgba(0,0,0,0.04) 4px
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
             padding: 0 20px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            gap: 24px;
         }
 
-        .hero-text h1 {
+        .hero-eyebrow {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 8px;
+            color: var(--cyan);
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeUp 1s ease 0.3s forwards;
+        }
+
+        .hero-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: clamp(2.7rem, 8vw, 5.4rem);
-            letter-spacing: 10px;
-            text-shadow: 0 0 20px rgba(53, 177, 198, 0.55);
-            margin: 0;
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 900;
+            letter-spacing: clamp(6px, 2vw, 18px);
+            line-height: 1;
+            background: linear-gradient(135deg, #fff 0%, var(--cyan) 50%, #fff 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease infinite, fadeUp 1s ease 0.6s both;
+            filter: drop-shadow(0 0 40px rgba(53,177,198,0.4));
         }
 
-        /* ACHIEVEMENT */
-        .achievement-container {
-            padding: 70px 10%;
-            background: #000;
+        .hero-sub {
+            font-family: 'Space Mono', monospace;
+            font-size: clamp(0.65rem, 2vw, 0.85rem);
+            letter-spacing: 5px;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeUp 1s ease 0.9s forwards;
         }
 
-        .achievement-heading {
-            font-family: 'Michroma', sans-serif;
-            color: #35B1C6;
-            margin-bottom: 30px;
-            text-align: justify;
-            text-align-last: center;
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeUp 1s ease 1.2s forwards;
+        }
+
+        .btn-primary {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #000;
+            background: var(--cyan);
+            border: none;
+            padding: 14px 32px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 0 20px rgba(53,177,198,0.4);
+        }
+        .btn-primary:hover {
+            background: #fff;
+            box-shadow: 0 0 40px rgba(53,177,198,0.8);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--cyan);
+            background: transparent;
+            border: 1px solid var(--cyan-border);
+            padding: 14px 32px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .btn-outline:hover {
+            border-color: var(--cyan);
+            background: var(--cyan-dim);
+            box-shadow: 0 0 20px rgba(53,177,198,0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Scroll indicator */
+        .scroll-hint {
+            position: absolute;
+            bottom: 36px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            animation: fadeIn 1s ease 1.8s forwards;
+        }
+        .scroll-hint span {
+            font-size: 0.6rem;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.35);
+            text-transform: uppercase;
+        }
+        .scroll-line {
+            width: 1px;
+            height: 50px;
+            background: linear-gradient(to bottom, var(--cyan), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        /* ───── SECTION: ABOUT ───── */
+        .section-about {
+            position: relative;
+            z-index: 1;
+            padding: clamp(60px, 10vw, 100px) clamp(5%, 10%, 160px);
+            background: linear-gradient(180deg, #000 0%, #020810 100%);
+            overflow: hidden;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-label {
+            font-size: 0.65rem;
+            letter-spacing: 5px;
+            color: var(--cyan);
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .about-heading {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.6rem, 4vw, 2.8rem);
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 28px;
+            color: #fff;
+        }
+
+        .about-heading span {
+            color: var(--cyan);
+            display: block;
+        }
+
+        .about-body p {
+            color: rgba(255,255,255,0.65);
+            line-height: 1.9;
+            font-size: 0.85rem;
+            margin-bottom: 18px;
+        }
+
+        .about-body p strong {
+            color: var(--cyan);
+            font-weight: 700;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .stat-card {
+            padding: 24px;
+            background: var(--dark-card);
+            border: 1px solid var(--cyan-border);
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+
+        .stat-card:hover::before { transform: scaleX(1); }
+
+        .stat-card:hover {
+            border-color: var(--cyan);
+            box-shadow: 0 0 30px rgba(53,177,198,0.15);
+            transform: translateY(-4px);
+        }
+
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            font-weight: 900;
+            color: var(--cyan);
+            line-height: 1;
+            margin-bottom: 6px;
+            text-shadow: 0 0 20px var(--cyan-glow);
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
             letter-spacing: 2px;
-            font-size: 1.3rem;
+            color: rgba(255,255,255,0.45);
+            text-transform: uppercase;
         }
 
-        .achievement-block {
-            padding: 36px;
-            background: rgba(20, 20, 20, 0.72);
-            border: 1px solid rgba(53, 177, 198, 0.18);
-            border-left: 8px solid #35B1C6;
+        /* Corner decoration */
+        .section-about::before {
+            content: '';
+            position: absolute;
+            top: -200px; right: -200px;
+            width: 500px; height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(53,177,198,0.07), transparent 70%);
+            pointer-events: none;
+        }
+
+        /* ───── SECTION: ACHIEVEMENT ───── */
+        .section-achievement {
+            position: relative;
+            z-index: 1;
+            padding: clamp(60px, 10vw, 100px) clamp(5%, 10%, 160px);
+            background: #020810;
+            overflow: hidden;
+        }
+
+        .section-achievement::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--cyan-border), transparent);
+        }
+
+        .section-label {
+            font-size: 0.65rem;
+            letter-spacing: 5px;
+            color: var(--cyan);
+            text-transform: uppercase;
+            display: block;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 50px;
+            color: #fff;
+        }
+
+        .achievement-card {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: clamp(28px, 5vw, 48px);
+            background: var(--dark-card);
+            border: 1px solid var(--cyan-border);
+            border-left: 4px solid var(--cyan);
+            border-radius: 12px;
             display: flex;
             align-items: center;
-            gap: 28px;
-            border-radius: 10px;
+            gap: 36px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s;
         }
 
-        .achievement-icon {
-            font-size: 3.8rem;
-            color: #35B1C6;
-            filter: drop-shadow(0 0 10px rgba(53, 177, 198, 0.35));
+        .achievement-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 0% 50%, rgba(53,177,198,0.07), transparent 60%);
+            pointer-events: none;
+        }
+
+        .achievement-card:hover {
+            box-shadow: 0 0 50px rgba(53,177,198,0.15), inset 0 0 50px rgba(53,177,198,0.03);
+            transform: translateY(-4px);
+        }
+
+        .achievement-icon-wrap {
             flex-shrink: 0;
+            width: clamp(60px, 10vw, 80px);
+            height: clamp(60px, 10vw, 80px);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(53,177,198,0.2), rgba(53,177,198,0.05));
+            border: 1px solid var(--cyan-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .achieve-text h3 {
-            font-family: 'Michroma', sans-serif;
-            margin: 0;
-            font-size: 1.25rem;
-            text-align: justify;
-            text-align-last: center;
+        .achievement-icon-wrap i {
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            color: var(--cyan);
+            filter: drop-shadow(0 0 12px rgba(53,177,198,0.5));
+            animation: pulse 3s ease-in-out infinite;
         }
 
-        .achieve-text p {
-            margin: 12px 0 0;
-            color: #d8f7fb;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            text-align: justify;
-            text-align-last: center;
-            line-height: 1.7;
+        .achieve-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #fff;
         }
 
-        /* GALLERY PREVIEW */
-        .gallery-preview {
-            padding: 70px 10%;
-            background: #050505;
-            text-align: center;
-        }
-
-        .gallery-preview h2 {
-            font-family: 'Michroma', sans-serif;
-            color: #35B1C6;
-            margin-bottom: 30px;
+        .achieve-sub {
+            font-size: 0.75rem;
             letter-spacing: 2px;
+            color: var(--cyan);
+            text-transform: uppercase;
+        }
+
+        .achieve-badge {
+            position: absolute;
+            top: 16px; right: 16px;
+            font-size: 0.55rem;
+            letter-spacing: 3px;
+            color: #000;
+            background: var(--cyan);
+            padding: 5px 12px;
+            border-radius: 2px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        /* ───── SECTION: GALLERY ───── */
+        .section-gallery {
+            position: relative;
+            z-index: 1;
+            padding: clamp(60px, 10vw, 100px) clamp(5%, 10%, 160px);
+            background: linear-gradient(180deg, #020810 0%, #000 100%);
+            overflow: hidden;
+        }
+
+        .slider-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
         }
 
         .slider-container {
             width: 100%;
-            max-width: 1100px;
-            height: 600px;
-            margin: 0 auto;
+            aspect-ratio: 16/9;
+            max-height: 600px;
             position: relative;
             overflow: hidden;
-            background: #111;
-            border: 1px solid #333;
             border-radius: 14px;
+            border: 1px solid var(--cyan-border);
+            box-shadow: 0 0 60px rgba(53,177,198,0.1);
         }
 
         .slide {
+            position: absolute;
+            inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 1;
-            transition: opacity 0.5s ease-in-out;
-            display: block;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
         }
 
-        /* REVEAL */
+        .slide.active { opacity: 1; }
+
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .slider-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: rgba(53,177,198,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .slider-dot.active {
+            background: var(--cyan);
+            width: 24px;
+            border-radius: 3px;
+        }
+
+        /* Corner brackets on slider */
+        .slider-corner {
+            position: absolute;
+            width: 20px; height: 20px;
+            z-index: 3;
+            pointer-events: none;
+        }
+        .slider-corner.tl { top: 10px; left: 10px; border-top: 2px solid var(--cyan); border-left: 2px solid var(--cyan); }
+        .slider-corner.tr { top: 10px; right: 10px; border-top: 2px solid var(--cyan); border-right: 2px solid var(--cyan); }
+        .slider-corner.bl { bottom: 10px; left: 10px; border-bottom: 2px solid var(--cyan); border-left: 2px solid var(--cyan); }
+        .slider-corner.br { bottom: 10px; right: 10px; border-bottom: 2px solid var(--cyan); border-right: 2px solid var(--cyan); }
+
+        /* ───── FOOTER ───── */
+        .main-footer {
+            position: relative;
+            z-index: 1;
+            background: #000;
+            border-top: 1px solid var(--cyan-border);
+            padding: clamp(40px, 8vw, 80px) clamp(5%, 10%, 160px) 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            padding-bottom: 50px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .footer-section h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            color: var(--cyan);
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.45);
+            line-height: 1.8;
+            display: block;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-section a:hover { color: var(--cyan); }
+
+        .contact-title {
+            font-size: 0.65rem !important;
+            letter-spacing: 2px;
+            color: var(--cyan) !important;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        .footer-branding {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 32px 0;
+        }
+
+        .footer-logo, .partner-logo {
+            height: 48px;
+            object-fit: contain;
+            opacity: 0.7;
+            filter: brightness(0) invert(1);
+            transition: opacity 0.3s;
+        }
+
+        .footer-logo:hover, .partner-logo:hover { opacity: 1; }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-links a {
+            width: 40px; height: 40px;
+            border: 1px solid var(--cyan-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--cyan);
+            border-color: var(--cyan);
+            box-shadow: 0 0 20px rgba(53,177,198,0.3);
+            transform: translateY(-3px);
+        }
+
+        .footer-copyright {
+            padding: 20px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-copyright p {
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.2);
+            text-transform: uppercase;
+        }
+
+        /* ───── REVEAL ───── */
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease;
+            transform: translateY(40px);
+            transition: opacity 0.9s ease, transform 0.9s ease;
         }
 
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
         }
-        .about-home {
-    padding: 80px 10%;
-    background: #050505;
-    text-align: center;
-}
 
-.about-home-container {
-    max-width: 900px;
-    margin: 0 auto;
-}
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.35s; }
+        .reveal-delay-4 { transition-delay: 0.5s; }
 
-.about-heading {
-    font-family: 'Michroma', sans-serif;
-    color: #35B1C6;
-    margin-bottom: 30px;
-    letter-spacing: 2px;
-}
+        /* ───── ANIMATIONS ───── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
 
-.about-home p {
-    color: #ddd;
-    line-height: 1.8;
-    margin-bottom: 20px;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
 
-    text-align: justify;
-    text-align-last: center;
-}
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50%       { background-position: 100% 50%; }
+        }
 
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 1; transform: scaleY(1); }
+            50%       { opacity: 0.3; transform: scaleY(0.7); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { filter: drop-shadow(0 0 12px rgba(53,177,198,0.5)); }
+            50%       { filter: drop-shadow(0 0 24px rgba(53,177,198,0.9)); }
+        }
+
+        @keyframes glitch {
+            0% { clip-path: inset(0 0 98% 0); transform: translate(-4px, 0); }
+            10% { clip-path: inset(60% 0 20% 0); transform: translate(4px, 0); }
+            20% { clip-path: inset(0 0 98% 0); transform: translate(0, 0); }
+            100% { clip-path: inset(0 0 98% 0); transform: translate(0, 0); }
+        }
+
+        /* ───── RESPONSIVE ───── */
         @media (max-width: 900px) {
-            .achievement-block {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .slider-container {
-                height: 420px;
-            }
-
-            .hero-text h1 {
-                letter-spacing: 6px;
-            }
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
         }
 
         @media (max-width: 600px) {
-            .achievement-container,
-            .gallery-preview {
-                padding: 50px 6%;
-            }
+            .about-stats { grid-template-columns: 1fr 1fr; }
+            .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+            .footer-branding { flex-direction: column; gap: 20px; }
+            .achievement-card { flex-direction: column; text-align: center; gap: 20px; }
+            .achieve-badge { position: static; display: inline-block; margin-top: 8px; }
+            .achieve-title { font-size: 1rem; }
+        }
 
-            .slider-container {
-                height: 280px;
-            }
+        @media (max-width: 380px) {
+            .about-stats { grid-template-columns: 1fr; }
+        }
 
-            .hero-text h1 {
-                font-size: 2.3rem;
-                letter-spacing: 4px;
-            }
-            .achieve-text {
-    text-align: center;
-    max-width: 600px;
-    margin: auto;
-}
+        /* ───── GLITCH LINE ───── */
+        .glitch-bar {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+            bottom: 0; left: 0;
+            animation: glitchBar 6s ease-in-out infinite;
+        }
 
-            .achievement-icon {
-                text-align: justify;
-    text-align-last: center;
-                font-size: 3rem;
-            }
-
-            .achieve-text h3 {
-                font-size: 1rem;
-                text-align: justify;
-    text-align-last: center;
-            }
-
-            .achieve-text p {
-                font-size: 0.85rem;
-                text-align: justify;
-    text-align-last: center;
-            }
+        @keyframes glitchBar {
+            0%, 90%, 100% { opacity: 0; }
+            92% { opacity: 1; transform: scaleX(1); }
+            94% { opacity: 0.5; transform: scaleX(0.5) translateX(30%); }
+            96% { opacity: 1; transform: scaleX(0.8) translateX(-10%); }
+            98% { opacity: 0; }
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="logo-section">
-            <img src="images/logo.png" class="logo" alt="Rotor FPV Logo">
-            <span class="brand-name">RotorFPV</span>
-        </div>
+<!-- Particle canvas -->
+<canvas id="particle-canvas"></canvas>
 
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="about.html">About</a>
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+    <div class="logo-section">
+        <img src="images/logo.png" class="logo" alt="Rotor FPV Logo">
+        <span class="brand-name">RotorFPV</span>
+    </div>
 
-            <div class="dropdown">
-                <span class="dropbtn">Team <i class="fa fa-caret-down"></i></span>
-                <div class="dropdown-content">
-                    <a href="team2026.html">2026</a>
-                    <a href="team2025.html">2025</a>
-                    <a href="team2024.html">2024</a>
-                </div>
+    <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <div class="dropdown">
+            <span class="dropbtn">Team <i class="fa fa-caret-down"></i></span>
+            <div class="dropdown-content">
+                <a href="team2026.html">2026</a>
+                <a href="team2025.html">2025</a>
+                <a href="team2024.html">2024</a>
             </div>
-
-            <a href="gallery.html">Gallery</a>
-            <a href="sponsors.html">Sponsors</a>
-            <a href="achievements.html">Achievements</a>
         </div>
-    </nav>
+        <a href="gallery.html">Gallery</a>
+        <a href="sponsors.html">Sponsors</a>
+        <a href="achievements.html">Achievements</a>
+    </div>
 
-    <section class="hero">
-        <video class="hero-video" autoplay muted loop playsinline>
-            <source src="images/gallery/hv.mp4" type="video/mp4">
-        </video>
+    <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+    </div>
+</nav>
 
-        <div class="hero-overlay"></div>
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <span class="sub-label">Team</span>
+    <a href="team2026.html" style="padding-left:12%">2026</a>
+    <a href="team2025.html" style="padding-left:12%">2025</a>
+    <a href="team2024.html" style="padding-left:12%">2024</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="sponsors.html">Sponsors</a>
+    <a href="achievements.html">Achievements</a>
+</div>
 
-        <div class="hero-text">
-            <h1>ROTOR FPV</h1>
+<!-- HERO -->
+<section class="hero">
+    <video class="hero-video" autoplay muted loop playsinline>
+        <source src="images/gallery/hv.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-scanlines"></div>
+
+    <div class="hero-content">
+        <span class="hero-eyebrow">VIT Vellore · FPV Drone Racing</span>
+        <h1 class="hero-title">ROTOR FPV</h1>
+        <p class="hero-sub">Build &nbsp;·&nbsp; Fly &nbsp;·&nbsp; Crash &nbsp;·&nbsp; Repeat</p>
+        <div class="hero-cta">
+            <a href="about.html" class="btn-primary">Our Story</a>
+            <a href="achievements.html" class="btn-outline">Achievements</a>
         </div>
-    </section>
-    <section class="about-home">
-    <div class="about-home-container">
+    </div>
 
-        <h2 class="about-heading reveal">About Team Rotor FPV</h2>
+    <div class="scroll-hint">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+    </div>
+    <div class="glitch-bar"></div>
+</section>
 
-        <p class="reveal">
-            Team Rotor FPV is a dedicated drone development team at VIT, Vellore,
-            focused on building high-performance FPV drones and advancing aerial
-            robotics. We specialize in drone design, assembly, and real-time flight testing.
-        </p>
-
-        <p class="reveal">
-            We work from <strong>GDN 129</strong>, where all our drones are designed and built.
-            Flight testing is carried out at <strong>SJT Ground</strong> and 
-            <strong>KC Lawn</strong>, ensuring optimal performance and real-world validation.
-        </p>
-
+<!-- ABOUT -->
+<section class="section-about">
+    <div class="about-grid">
+        <div class="about-body">
+            <span class="about-label reveal">Team Overview</span>
+            <h2 class="about-heading reveal reveal-delay-1">
+                Engineering the<br>
+                <span>Skies of Tomorrow</span>
+            </h2>
+            <p class="reveal reveal-delay-2">
+                Team Rotor FPV is a dedicated drone development team at <strong>VIT, Vellore</strong>, focused on building high-performance FPV drones and advancing aerial robotics. We specialize in drone design, assembly, and real-time flight testing.
+            </p>
+            <p class="reveal reveal-delay-3">
+                We work out of <strong>GDN 129</strong>, where all our drones are designed and built from scratch. Flight testing is carried out at <strong>SJT Ground</strong> and <strong>KC Lawn</strong>, ensuring optimal performance under real-world conditions.
+            </p>
+        </div>
+        <div class="about-stats">
+            <div class="stat-card reveal reveal-delay-1">
+                <div class="stat-number">3+</div>
+                <div class="stat-label">Years Active</div>
+            </div>
+            <div class="stat-card reveal reveal-delay-2">
+                <div class="stat-number">10+</div>
+                <div class="stat-label">Drones Built</div>
+            </div>
+            <div class="stat-card reveal reveal-delay-3">
+                <div class="stat-number">#1</div>
+                <div class="stat-label">ISDC '26</div>
+            </div>
+            <div class="stat-card reveal reveal-delay-4">
+                <div class="stat-number">VIT</div>
+                <div class="stat-label">Vellore Campus</div>
+            </div>
+        </div>
     </div>
 </section>
 
-    <section class="achievement-container">
-        <h2 class="achievement-heading reveal">Recent Achievement</h2>
+<!-- ACHIEVEMENT -->
+<section class="section-achievement">
+    <span class="section-label reveal">Milestones</span>
+    <h2 class="section-title reveal reveal-delay-1">Recent Achievement</h2>
 
-        <div class="achievement-block reveal">
-            <i class="fas fa-medal achievement-icon"></i>
-            <div class="achieve-text">
-                <h3>1st Prize in ISDC '26</h3>
-                <p>MIT Manipal | Indian Space Drone Championship</p>
-            </div>
+    <div class="achievement-card reveal reveal-delay-2">
+        <div class="achievement-icon-wrap">
+            <i class="fas fa-medal"></i>
         </div>
-    </section>
-
-    <section class="gallery-preview">
-        <h2 class="reveal">Gallery Preview</h2>
-        <div class="slider-container reveal">
-            <img id="dynamic-slide" class="slide" src="images/gallery/IMG_0140.jpg" alt="Rotor FPV Gallery Preview">
+        <div>
+            <h3 class="achieve-title">1st Prize in ISDC '26</h3>
+            <p class="achieve-sub">MIT Manipal &nbsp;·&nbsp; Indian Space Drone Championship</p>
         </div>
-    </section>
+        <span class="achieve-badge">Gold</span>
+    </div>
+</section>
 
-    <footer class="main-footer">
-        <div class="footer-grid">
-
-            <div class="footer-section">
-                <h3>Saarika Rajen</h3>
-                <p class="contact-detail">+91-8919936428</p>
-                <p class="contact-title">Team Captain</p>
-            </div>
-
-            <div class="footer-section">
-                <h3>Vellore Institute of Technology</h3>
-                <p>Vellore, Tamil Nadu - 632014</p>
-            </div>
-
-            <div class="footer-section">
-                <h3>Contact Us</h3>
-                <a href="mailto:teamrotorfpv.vit@gmail.com" class="footer-link">teamrotorfpv.vit@gmail.com</a>
-                <a href="mailto:teamrotorfpv@vit.ac.in" class="footer-link">teamrotorfpv@vit.ac.in</a>
-            </div>
-
+<!-- GALLERY -->
+<section class="section-gallery">
+    <span class="section-label reveal">Visual Log</span>
+    <h2 class="section-title reveal reveal-delay-1">Gallery Preview</h2>
+    <div class="slider-wrap reveal reveal-delay-2">
+        <div class="slider-container">
+            <div class="slider-corner tl"></div>
+            <div class="slider-corner tr"></div>
+            <div class="slider-corner bl"></div>
+            <div class="slider-corner br"></div>
         </div>
+        <div class="slider-dots" id="slider-dots"></div>
+    </div>
+</section>
 
-        <div class="footer-branding">
-            <div class="brand-left">
-                <img src="images/white VIT-ROTOR.png" class="footer-logo" alt="Rotor FPV">
-            </div>
-
-            <div class="social-links">
-                <a href="https://www.linkedin.com/company/team-rotorfpv" target="_blank"><i class="fab fa-linkedin"></i></a>
-                <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
-                <a href="https://www.instagram.com/teamrotorfpv" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
-            </div>
-
-            <div class="brand-right">
-                <img src="images/vitlogo.png" class="partner-logo" alt="VIT">
-            </div>
+<!-- FOOTER -->
+<footer class="main-footer">
+    <div class="footer-grid">
+        <div class="footer-section">
+            <h3>Saarika Rajen</h3>
+            <p>+91-8919936428</p>
+            <p class="contact-title">Team Captain</p>
         </div>
-
-        <div class="footer-copyright">
-            <p>&copy; Copyright - Team Rotor FPV 2026 | Build.Fly.Crash.Repeat</p>
+        <div class="footer-section">
+            <h3>Location</h3>
+            <p>Vellore Institute of Technology</p>
+            <p>Vellore, Tamil Nadu — 632014</p>
         </div>
-    </footer>
+        <div class="footer-section">
+            <h3>Contact Us</h3>
+            <a href="mailto:teamrotorfpv.vit@gmail.com">teamrotorfpv.vit@gmail.com</a>
+            <a href="mailto:teamrotorfpv@vit.ac.in">teamrotorfpv@vit.ac.in</a>
+        </div>
+    </div>
 
-    <script>
-        const galleryImages = [
-            "images/gallery/IMG_0140.jpg",
-            "images/gallery/IMG_0180.jpg",
-            "images/gallery/IMG_0498.jpg",
-            "images/gallery/IMG_0584.jpg",
-            "images/gallery/IMG_0618.jpg",
-            "images/gallery/IMG_2607.jpg",
-            "images/gallery/IMG_4783.jpg",
-            "images/gallery/IMG_9188.jpg",
-            "images/gallery/8b961473-098a-4eda-ad85-342ba0e51dd5.jpg",
-            "images/gallery/32ce7414-d73d-44b1-b535-875ac2e2c8d5.jpg",
-            "images/gallery/76e9dd2d-5185-495b-b354-3a7d26a061b8.jpg",
-            "images/gallery/892ae444-a4a9-48c3-b1eb-386413115c5a.jpg",
-            "images/gallery/958d9ce3-62ca-4a76-9b82-fca33dc751f3.jpg",
-            "images/gallery/a1d6ba2d-87ca-4de2-9e3e-6da9910f062a.jpg",
-            "images/gallery/a6615dbe-4520-430a-a768-b70a2aa3ccee.jpg",
-            "images/gallery/b3849de2-bad4-4684-93c4-f6741f1a553c.jpg",
-            "images/gallery/c56df41b-46f3-42b4-9d7b-5011a1420fcb.jpg",
-            "images/gallery/f5a4b82f-a170-4343-bd63-0830ee8e818e.jpg"
-        ];
+    <div class="footer-branding">
+        <img src="images/white VIT-ROTOR.png" class="footer-logo" alt="Rotor FPV">
+        <div class="social-links">
+            <a href="https://www.linkedin.com/company/team-rotorfpv" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.instagram.com/teamrotorfpv" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        </div>
+        <img src="images/vitlogo.png" class="partner-logo" alt="VIT">
+    </div>
 
-        let currentIndex = 0;
-        const galleryImg = document.getElementById("dynamic-slide");
+    <div class="footer-copyright">
+        <p>&copy; 2026 Team Rotor FPV &nbsp;·&nbsp; Build.Fly.Crash.Repeat</p>
+    </div>
+</footer>
 
-        galleryImg.src = galleryImages[currentIndex];
+<script>
+// ───── PARTICLES ─────
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
 
-        function rotateGallery() {
-            galleryImg.style.opacity = "0";
+function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
 
-            setTimeout(() => {
-                currentIndex = (currentIndex + 1) % galleryImages.length;
-                galleryImg.src = galleryImages[currentIndex];
-                galleryImg.style.opacity = "1";
-            }, 500);
+const PARTICLE_COUNT = 80;
+const particles = [];
+
+class Particle {
+    constructor() { this.reset(); }
+    reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 0.4;
+        this.vy = (Math.random() - 0.5) * 0.4;
+        this.radius = Math.random() * 1.5 + 0.3;
+        this.alpha = Math.random() * 0.5 + 0.1;
+    }
+    update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+    }
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(53,177,198,${this.alpha})`;
+        ctx.fill();
+    }
+}
+
+for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
+
+function drawLines() {
+    for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 120) {
+                ctx.beginPath();
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+                ctx.strokeStyle = `rgba(53,177,198,${0.08 * (1 - dist / 120)})`;
+                ctx.lineWidth = 0.5;
+                ctx.stroke();
+            }
         }
+    }
+}
 
-        setInterval(rotateGallery, 8000);
+function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    drawLines();
+    requestAnimationFrame(animateParticles);
+}
+animateParticles();
 
-        const reveals = document.querySelectorAll(".reveal");
+// ───── NAVBAR SCROLL ─────
+window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+});
 
-        function revealOnScroll() {
-            reveals.forEach(item => {
-                const windowHeight = window.innerHeight;
-                const revealTop = item.getBoundingClientRect().top;
-                const revealPoint = 100;
+// ───── HAMBURGER ─────
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+});
 
-                if (revealTop < windowHeight - revealPoint) {
-                    item.classList.add("active");
-                }
-            });
+// ───── GALLERY SLIDER ─────
+const galleryImages = [
+    "images/gallery/IMG_0140.jpg",
+    "images/gallery/IMG_0180.jpg",
+    "images/gallery/IMG_0498.jpg",
+    "images/gallery/IMG_0584.jpg",
+    "images/gallery/IMG_0618.jpg",
+    "images/gallery/IMG_2607.jpg",
+    "images/gallery/IMG_4783.jpg",
+    "images/gallery/IMG_9188.jpg",
+    "images/gallery/8b961473-098a-4eda-ad85-342ba0e51dd5.jpg",
+    "images/gallery/32ce7414-d73d-44b1-b535-875ac2e2c8d5.jpg",
+    "images/gallery/76e9dd2d-5185-495b-b354-3a7d26a061b8.jpg",
+    "images/gallery/892ae444-a4a9-48c3-b1eb-386413115c5a.jpg",
+    "images/gallery/958d9ce3-62ca-4a76-9b82-fca33dc751f3.jpg",
+    "images/gallery/a1d6ba2d-87ca-4de2-9e3e-6da9910f062a.jpg",
+    "images/gallery/a6615dbe-4520-430a-a768-b70a2aa3ccee.jpg",
+    "images/gallery/b3849de2-bad4-4684-93c4-f6741f1a553c.jpg",
+    "images/gallery/c56df41b-46f3-42b4-9d7b-5011a1420fcb.jpg",
+    "images/gallery/f5a4b82f-a170-4343-bd63-0830ee8e818e.jpg"
+];
+
+const sliderContainer = document.querySelector('.slider-container');
+const dotsContainer = document.getElementById('slider-dots');
+let currentIndex = 0;
+let slideElements = [];
+
+// Build slides
+galleryImages.forEach((src, i) => {
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = `Rotor FPV Gallery ${i + 1}`;
+    img.className = 'slide' + (i === 0 ? ' active' : '');
+    sliderContainer.appendChild(img);
+    slideElements.push(img);
+
+    const dot = document.createElement('div');
+    dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(dot);
+});
+
+function goTo(index) {
+    slideElements[currentIndex].classList.remove('active');
+    dotsContainer.children[currentIndex].classList.remove('active');
+    currentIndex = (index + galleryImages.length) % galleryImages.length;
+    slideElements[currentIndex].classList.add('active');
+    dotsContainer.children[currentIndex].classList.add('active');
+}
+
+setInterval(() => goTo(currentIndex + 1), 7000);
+
+// ───── SCROLL REVEAL ─────
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            e.target.classList.add('active');
         }
+    });
+}, { threshold: 0.12 });
 
-        window.addEventListener("scroll", revealOnScroll);
-        revealOnScroll();
-    </script>
+reveals.forEach(el => observer.observe(el));
 
+// ───── COUNTER ANIMATION ─────
+function animateCounters() {
+    document.querySelectorAll('.stat-number').forEach(el => {
+        const text = el.textContent;
+        const num = parseFloat(text);
+        if (!isNaN(num)) {
+            let start = 0;
+            const duration = 1400;
+            const step = (timestamp) => {
+                if (!start) start = timestamp;
+                const progress = Math.min((timestamp - start) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                el.textContent = (text.includes('+') ? Math.floor(eased * num) + '+' :
+                                  text.includes('#') ? '#' + Math.floor(eased * num) :
+                                  Math.floor(eased * num));
+                if (progress < 1) requestAnimationFrame(step);
+                else el.textContent = text;
+            };
+            requestAnimationFrame(step);
+        }
+    });
+}
+
+// Trigger counter once stats are in view
+const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            animateCounters();
+            statsObserver.disconnect();
+        }
+    });
+}, { threshold: 0.5 });
+
+const statsEl = document.querySelector('.about-stats');
+if (statsEl) statsObserver.observe(statsEl);
+</script>
 </body>
 </html>

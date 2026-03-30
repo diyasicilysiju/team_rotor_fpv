@@ -4,94 +4,368 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gallery | Team Rotor FPV</title>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Orbitron:wght@400;600;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
+        /* ───── RESET & BASE ───── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --cyan: #35B1C6;
+            --cyan-glow: rgba(53,177,198,0.55);
+            --cyan-dim: rgba(53,177,198,0.12);
+            --cyan-border: rgba(53,177,198,0.28);
+            --dark-card: rgba(10,15,25,0.82);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0; padding: 0;
+            background: #000;
+            font-family: 'Space Mono', monospace;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* ───── PARTICLES ───── */
+        #particle-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0; opacity: 0.5;
+        }
+
+        /* ───── NAVBAR ───── */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            display: flex; align-items: center;
+            justify-content: space-between;
+            padding: 0 5%; height: 70px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--cyan-border);
+            transition: background 0.3s;
+        }
+        .navbar.scrolled { background: rgba(0,0,0,0.95); }
+
+        .logo-section { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo { width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 0 8px var(--cyan)); }
+        .brand-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem; font-weight: 700;
+            letter-spacing: 4px; color: #fff;
+            text-shadow: 0 0 12px var(--cyan-glow);
+        }
+
+        .nav-links { display: flex; align-items: center; gap: 8px; }
+        .nav-links a, .dropbtn {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.72rem; letter-spacing: 2px;
+            text-transform: uppercase; color: rgba(255,255,255,0.72);
+            text-decoration: none; padding: 8px 14px;
+            border-radius: 4px; transition: all 0.25s;
+            cursor: pointer; border: none; background: none;
+        }
+        .nav-links a:hover, .dropbtn:hover { color: var(--cyan); background: var(--cyan-dim); }
+        .nav-links a.active { color: var(--cyan); background: var(--cyan-dim); }
+
+        .dropdown { position: relative; }
+        .dropdown-content {
+            display: none; position: absolute;
+            top: calc(100% + 8px); left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.96);
+            border: 1px solid var(--cyan-border);
+            border-radius: 8px; overflow: hidden;
+            min-width: 120px; backdrop-filter: blur(20px);
+        }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a {
+            display: block; padding: 10px 20px;
+            font-size: 0.7rem; letter-spacing: 2px;
+            color: rgba(255,255,255,0.7); transition: all 0.2s;
+        }
+        .dropdown-content a:hover { color: var(--cyan); background: var(--cyan-dim); padding-left: 28px; }
+
+        /* HAMBURGER */
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
+        .hamburger span { display: block; width: 24px; height: 2px; background: var(--cyan); border-radius: 2px; transition: all 0.3s; }
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        .mobile-menu {
+            display: none; position: fixed;
+            top: 70px; left: 0; right: 0;
+            background: rgba(0,0,0,0.97);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--cyan-border);
+            z-index: 999; padding: 20px 0;
+            flex-direction: column; gap: 4px;
+        }
+        .mobile-menu.open { display: flex; }
+        .mobile-menu a {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem; letter-spacing: 2px;
+            text-transform: uppercase; color: rgba(255,255,255,0.7);
+            text-decoration: none; padding: 12px 8%;
+            transition: all 0.2s; border-left: 2px solid transparent;
+        }
+        .mobile-menu a:hover { color: var(--cyan); border-left-color: var(--cyan); background: var(--cyan-dim); }
+        .mobile-menu .sub-label { font-size: 0.6rem; color: var(--cyan); padding: 8px 8% 4px; letter-spacing: 3px; opacity: 0.7; }
+
+        /* ───── PAGE HERO ───── */
+        .page-hero {
+            position: relative; padding-top: 70px;
+            height: clamp(220px, 35vw, 320px);
+            display: flex; align-items: flex-end; justify-content: flex-start;
+            overflow: hidden;
+        }
+        .page-hero-bg {
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.97) 0%, rgba(5,10,48,0.85) 50%, rgba(0,0,0,0.97) 100%);
+            z-index: 1;
+        }
+        .page-hero-grid {
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(53,177,198,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(53,177,198,0.04) 1px, transparent 1px);
+            background-size: 60px 60px; z-index: 2;
+            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.6) 70%, transparent 100%);
+        }
+        .page-hero-content { position: relative; z-index: 3; padding: 0 clamp(5%, 10%, 160px) 48px; }
+        .page-hero-eyebrow {
+            font-size: 0.65rem; letter-spacing: 6px; color: var(--cyan);
+            text-transform: uppercase; display: block; margin-bottom: 10px;
+            opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards;
+        }
+        .page-hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 6vw, 4rem); font-weight: 900;
+            letter-spacing: clamp(4px, 1.5vw, 12px);
+            background: linear-gradient(135deg, #fff 0%, var(--cyan) 60%, #fff 100%);
+            background-size: 200%;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 5s ease infinite, fadeUp 0.8s ease 0.4s both;
+            filter: drop-shadow(0 0 30px rgba(53,177,198,0.3));
+        }
+        .page-hero-line {
+            width: 80px; height: 2px;
+            background: linear-gradient(90deg, var(--cyan), transparent);
+            margin-top: 18px; opacity: 0;
+            animation: fadeUp 0.8s ease 0.6s forwards;
+        }
+
+        /* ───── GALLERY SECTION ───── */
         .gallery-section {
-            padding: 80px 8%;
-            background: #0a0f1c;
-            color: white;
-            text-align: center;
+            position: relative; z-index: 1;
+            padding: clamp(40px, 6vw, 70px) clamp(5%, 8%, 120px) clamp(60px, 10vw, 100px);
         }
 
-        .gallery-section h1 {
-            font-family: 'Michroma', sans-serif;
-            margin-bottom: 40px;
-            font-size: 32px;
-        }
-
+        /* ───── MASONRY GRID ───── */
         .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            columns: 4;
+            column-gap: clamp(10px, 1.5vw, 18px);
         }
 
         .gallery-item {
-            overflow: hidden;
-            border-radius: 12px;
+            break-inside: avoid;
+            margin-bottom: clamp(10px, 1.5vw, 18px);
             position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            border: 1px solid var(--cyan-border);
             cursor: pointer;
+            background: #0a0f1c;
+            /* stagger via inline style */
         }
 
         .gallery-item img {
             width: 100%;
-            height: 250px;
+            display: block;
             object-fit: cover;
-            transition: 0.4s ease;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        filter 0.4s ease;
+            filter: brightness(0.88) saturate(0.85);
+        }
+
+        /* Hover overlay */
+        .gallery-item::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(to top,
+                rgba(0,0,0,0.65) 0%,
+                rgba(53,177,198,0.08) 50%,
+                transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
 
         .gallery-item:hover img {
-            transform: scale(1.1);
+            transform: scale(1.07);
+            filter: brightness(1) saturate(1.1);
         }
+        .gallery-item:hover { border-color: var(--cyan); box-shadow: 0 0 24px rgba(53,177,198,0.15); }
+        .gallery-item:hover::after { opacity: 1; }
 
-        /* Lightbox */
+        /* Zoom icon */
+        .gallery-item .zoom-icon {
+            position: absolute; z-index: 2;
+            bottom: 12px; right: 12px;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: rgba(53,177,198,0.85);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.7rem; color: #000;
+            opacity: 0; transform: scale(0.7);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        .gallery-item:hover .zoom-icon { opacity: 1; transform: scale(1); }
+
+        /* ───── REVEAL ───── */
+        .reveal {
+            opacity: 0; transform: translateY(24px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* ───── LIGHTBOX ───── */
         .lightbox {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 999;
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.96);
+            backdrop-filter: blur(20px);
+            display: none; justify-content: center; align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+        .lightbox.open { display: flex; }
+
+        .lightbox-inner {
+            position: relative;
+            max-width: min(90vw, 1100px);
+            max-height: 90vh;
+            display: flex; align-items: center; justify-content: center;
         }
 
         .lightbox img {
-            max-width: 90%;
-            max-height: 80%;
-            border-radius: 10px;
+            max-width: 100%; max-height: 88vh;
+            border-radius: 8px;
+            border: 1px solid var(--cyan-border);
+            box-shadow: 0 0 60px rgba(53,177,198,0.15);
+            object-fit: contain;
+            display: block;
         }
 
-        .lightbox span {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-size: 30px;
-            color: white;
-            cursor: pointer;
+        /* Corner brackets on lightbox img */
+        .lb-corner {
+            position: absolute; width: 22px; height: 22px;
+            border: 2px solid var(--cyan); pointer-events: none;
         }
+        .lb-corner.tl { top: -6px; left: -6px; border-right: 0; border-bottom: 0; }
+        .lb-corner.tr { top: -6px; right: -6px; border-left: 0; border-bottom: 0; }
+        .lb-corner.bl { bottom: -6px; left: -6px; border-right: 0; border-top: 0; }
+        .lb-corner.br { bottom: -6px; right: -6px; border-left: 0; border-top: 0; }
+
+        .lb-close {
+            position: fixed; top: 20px; right: 28px;
+            width: 42px; height: 42px;
+            border: 1px solid var(--cyan-border); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,0.7); font-size: 1rem;
+            cursor: pointer; background: rgba(0,0,0,0.7);
+            transition: all 0.25s; z-index: 10;
+        }
+        .lb-close:hover { color: var(--cyan); border-color: var(--cyan); box-shadow: 0 0 16px rgba(53,177,198,0.3); }
+
+        .lb-nav {
+            position: fixed; top: 50%; transform: translateY(-50%);
+            width: 44px; height: 44px;
+            border: 1px solid var(--cyan-border); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,0.6); font-size: 0.85rem;
+            cursor: pointer; background: rgba(0,0,0,0.7);
+            transition: all 0.25s; z-index: 10;
+        }
+        .lb-nav:hover { color: var(--cyan); border-color: var(--cyan); box-shadow: 0 0 16px rgba(53,177,198,0.3); }
+        .lb-prev { left: 16px; }
+        .lb-next { right: 16px; }
+
+        .lb-counter {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            font-size: 0.65rem; letter-spacing: 3px; color: rgba(255,255,255,0.35);
+            text-transform: uppercase; z-index: 10;
+        }
+
+        /* ───── FOOTER ───── */
+        .main-footer {
+            position: relative; z-index: 1; background: #000;
+            border-top: 1px solid var(--cyan-border);
+            padding: clamp(40px, 8vw, 80px) clamp(5%, 10%, 160px) 0;
+        }
+        .footer-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 40px; padding-bottom: 50px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer-section h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.72rem; letter-spacing: 3px;
+            color: var(--cyan); margin-bottom: 14px; text-transform: uppercase;
+        }
+        .footer-section p, .footer-section a, .footer-link {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem; color: rgba(255,255,255,0.42);
+            line-height: 1.85; display: block;
+            text-decoration: none; transition: color 0.2s;
+        }
+        .footer-section a:hover, .footer-link:hover { color: var(--cyan); }
+        .contact-title { font-size: 0.62rem !important; letter-spacing: 2px; color: var(--cyan) !important; text-transform: uppercase; margin-top: 4px; }
+        .footer-branding { display: flex; align-items: center; justify-content: space-between; padding: 32px 0; flex-wrap: wrap; gap: 24px; }
+        .footer-logo, .partner-logo { height: 44px; object-fit: contain; opacity: 0.65; filter: brightness(0) invert(1); transition: opacity 0.3s; }
+        .footer-logo:hover, .partner-logo:hover { opacity: 1; }
+        .social-links { display: flex; gap: 12px; }
+        .social-links a { width: 40px; height: 40px; border: 1px solid var(--cyan-border); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.5); font-size: 0.85rem; text-decoration: none; transition: all 0.3s; }
+        .social-links a:hover { color: var(--cyan); border-color: var(--cyan); box-shadow: 0 0 20px rgba(53,177,198,0.3); transform: translateY(-3px); }
+        .footer-copyright { padding: 20px 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.04); }
+        .footer-copyright p { font-size: 0.62rem; letter-spacing: 2px; color: rgba(255,255,255,0.2); text-transform: uppercase; }
+
+        /* ───── ANIMATIONS ───── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50%       { background-position: 100% 50%; }
+        }
+
+        /* ───── RESPONSIVE ───── */
+        @media (max-width: 1100px) { .gallery-grid { columns: 3; } }
+        @media (max-width: 900px)  { .gallery-grid { columns: 2; } .nav-links { display: none; } .hamburger { display: flex; } }
+        @media (max-width: 500px)  { .gallery-grid { columns: 1; } .footer-grid { grid-template-columns: 1fr; gap: 28px; } .footer-branding { justify-content: center; } .lb-nav { display: none; } }
     </style>
 </head>
-
 <body>
 
-<!-- NAVBAR (UNCHANGED) -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- NAVBAR -->
 <nav class="navbar" id="navbar">
     <div class="logo-section">
-        <img src="images/logo.png" class="logo">
+        <img src="images/logo.png" class="logo" alt="Rotor FPV Logo">
         <span class="brand-name">RotorFPV</span>
     </div>
-
     <div class="nav-links">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
-
         <div class="dropdown">
             <span class="dropbtn">Team <i class="fa fa-caret-down"></i></span>
             <div class="dropdown-content">
@@ -100,133 +374,211 @@
                 <a href="team2024.html">2024</a>
             </div>
         </div>
-
-        <a href="gallery.html">Gallery</a>
+        <a href="gallery.html" class="active">Gallery</a>
         <a href="sponsors.html">Sponsors</a>
         <a href="achievements.html">Achievements</a>
     </div>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
 </nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <span class="sub-label">Team</span>
+    <a href="team2026.html" style="padding-left:12%">2026</a>
+    <a href="team2025.html" style="padding-left:12%">2025</a>
+    <a href="team2024.html" style="padding-left:12%">2024</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="sponsors.html">Sponsors</a>
+    <a href="achievements.html">Achievements</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="page-hero-grid"></div>
+    <div class="page-hero-content">
+        <span class="page-hero-eyebrow">VIT Vellore · Visual Archive</span>
+        <h1 class="page-hero-title">GALLERY</h1>
+        <div class="page-hero-line"></div>
+    </div>
+</div>
 
 <!-- GALLERY -->
 <section class="gallery-section">
-    <h1>Gallery</h1>
-
-    <div class="gallery-grid">
-
-        <!-- Images -->
-        <div class="gallery-item"><img src="images/gallery/IMG_0140.jpg"></div>
-        <div class="gallery-item"><img src="images/gallery/IMG_0180.jpg"></div>
-        <div class="gallery-item"><img src="images/gallery/IMG_0498.jpg"></div>
-        <div class="gallery-item"><img src="images/gallery/IMG_0584.jpg"></div>
-        <div class="gallery-item"><img src="images/gallery/IMG_0618.jpg"></div>
-        <div class="gallery-item"><img src="images/gallery/IMG_4783.jpg"></div>
-        <div class="gallery-item"><img src="images/gallery/IMG_9188.jpg"></div>
-
-        <div class="gallery-item"><img src="images/gallery/8b961473-098a-4eda-ad85-342ba0e51dd5.jpg"></div>
-        
-        <div class="gallery-item"><img src="images/gallery/76e9dd2d-5185-495b-b354-3a7d26a061b8.jpg"></div>
-        <div class="gallery-item"><img src="images/gallery/892ae444-a4a9-48c3-b1eb-386413115c5a.jpg"></div>
-        <div class="gallery-item"><img src="images/gallery/958d9ce3-62ca-4a76-9b82-fca33dc751f3.jpg"></div>
-        <div class="gallery-item"><img src="images/gallery/a1d6ba2d-87ca-4de2-9e3e-6da9910f062a.jpg"></div>
-        <div class="gallery-item"><img src="images/gallery/a6615dbe-4520-430a-a768-b70a2aa3ccee.jpg"></div>
-        <div class="gallery-item"><img src="images/gallery/b3849de2-bad4-4684-93c4-f6741f1a553c.jpg"></div>
-        <div class="gallery-item"><img src="images/gallery/c56df41b-46f3-42b4-9d7b-5011a1420fcb.jpg"></div>
-        <div class="gallery-item"><img src="images/gallery/f5a4b82f-a170-4343-bd63-0830ee8e818e.jpg"></div>
-
+    <div class="gallery-grid" id="gallery-grid">
+        <div class="gallery-item reveal"><img src="images/gallery/IMG_0140.jpg" alt="Rotor FPV"><div class="zoom-icon"><i class="fas fa-expand"></i></div></div>
+        <div class="gallery-item reveal"><img src="images/gallery/IMG_0180.jpg" alt="Rotor FPV"><div class="zoom-icon"><i class="fas fa-expand"></i></div></div>
+        <div class="gallery-item reveal"><img src="images/gallery/IMG_0498.jpg" alt="Rotor FPV"><div class="zoom-icon"><i class="fas fa-expand"></i></div></div>
+        <div class="gallery-item reveal"><img src="images/gallery/IMG_0584.jpg" alt="Rotor FPV"><div class="zoom-icon"><i class="fas fa-expand"></i></div></div>
+        <div class="gallery-item reveal"><img src="images/gallery/IMG_0618.jpg" alt="Rotor FPV"><div class="zoom-icon"><i class="fas fa-expand"></i></div></div>
+        <div class="gallery-item reveal"><img src="images/gallery/IMG_4783.jpg" alt="Rotor FPV"><div class="zoom-icon"><i class="fas fa-expand"></i></div></div>
+        <div class="gallery-item reveal"><img src="images/gallery/IMG_9188.jpg" alt="Rotor FPV"><div class="zoom-icon"><i class="fas fa-expand"></i></div></div>
+        <div class="gallery-item reveal"><img src="images/gallery/8b961473-098a-4eda-ad85-342ba0e51dd5.jpg" alt="Rotor FPV"><div class="zoom-icon"><i class="fas fa-expand"></i></div></div>
+        <div class="gallery-item reveal"><img src="images/gallery/32ce7414-d73d-44b1-b535-875ac2e2c8d5.jpg" alt="Rotor FPV"><div class="zoom-icon"><i class="fas fa-expand"></i></div></div>
+        <div class="gallery-item reveal"><img src="images/gallery/76e9dd2d-5185-495b-b354-3a7d26a061b8.jpg" alt="Rotor FPV"><div class="zoom-icon"><i class="fas fa-expand"></i></div></div>
+        <div class="gallery-item reveal"><img src="images/gallery/892ae444-a4a9-48c3-b1eb-386413115c5a.jpg" alt="Rotor FPV"><div class="zoom-icon"><i class="fas fa-expand"></i></div></div>
+        <div class="gallery-item reveal"><img src="images/gallery/958d9ce3-62ca-4a76-9b82-fca33dc751f3.jpg" alt="Rotor FPV"><div class="zoom-icon"><i class="fas fa-expand"></i></div></div>
+        <div class="gallery-item reveal"><img src="images/gallery/a1d6ba2d-87ca-4de2-9e3e-6da9910f062a.jpg" alt="Rotor FPV"><div class="zoom-icon"><i class="fas fa-expand"></i></div></div>
+        <div class="gallery-item reveal"><img src="images/gallery/a6615dbe-4520-430a-a768-b70a2aa3ccee.jpg" alt="Rotor FPV"><div class="zoom-icon"><i class="fas fa-expand"></i></div></div>
+        <div class="gallery-item reveal"><img src="images/gallery/b3849de2-bad4-4684-93c4-f6741f1a553c.jpg" alt="Rotor FPV"><div class="zoom-icon"><i class="fas fa-expand"></i></div></div>
+        <div class="gallery-item reveal"><img src="images/gallery/c56df41b-46f3-42b4-9d7b-5011a1420fcb.jpg" alt="Rotor FPV"><div class="zoom-icon"><i class="fas fa-expand"></i></div></div>
+        <div class="gallery-item reveal"><img src="images/gallery/f5a4b82f-a170-4343-bd63-0830ee8e818e.jpg" alt="Rotor FPV"><div class="zoom-icon"><i class="fas fa-expand"></i></div></div>
     </div>
 </section>
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
-    <span onclick="closeLightbox()">&times;</span>
-    <img id="lightbox-img">
+    <div class="lb-close" id="lb-close"><i class="fas fa-times"></i></div>
+    <div class="lb-nav lb-prev" id="lb-prev"><i class="fas fa-chevron-left"></i></div>
+    <div class="lb-nav lb-next" id="lb-next"><i class="fas fa-chevron-right"></i></div>
+    <div class="lightbox-inner">
+        <div class="lb-corner tl"></div>
+        <div class="lb-corner tr"></div>
+        <div class="lb-corner bl"></div>
+        <div class="lb-corner br"></div>
+        <img id="lightbox-img" src="" alt="Gallery Image">
+    </div>
+    <div class="lb-counter" id="lb-counter">1 / 17</div>
 </div>
 
-<!-- FOOTER (UNCHANGED) -->
+<!-- FOOTER -->
 <footer class="main-footer">
-  <div class="footer-grid">
-
-    <div class="footer-section">
-      <h3>Saarika Rajen</h3>
-      <p class="contact-detail">+91-8919936428</p>
-      <p class="contact-title">Team Captain</p>
+    <div class="footer-grid">
+        <div class="footer-section">
+            <h3>Saarika Rajen</h3>
+            <p>+91-8919936428</p>
+            <p class="contact-title">Team Captain</p>
+        </div>
+        <div class="footer-section">
+            <h3>Location</h3>
+            <p>Vellore Institute of Technology</p>
+            <p>Vellore, Tamil Nadu — 632014</p>
+        </div>
+        <div class="footer-section">
+            <h3>Contact Us</h3>
+            <a href="mailto:teamrotorfpv.vit@gmail.com" class="footer-link">teamrotorfpv.vit@gmail.com</a>
+            <a href="mailto:teamrotorfpv@vit.ac.in" class="footer-link">teamrotorfpv@vit.ac.in</a>
+        </div>
     </div>
-
-    <div class="footer-section">
-      <h3>Vellore Institute of Technology</h3>
-      <p>Vellore, Tamil Nadu - 632014</p>
+    <div class="footer-branding">
+        <img src="images/white VIT-ROTOR.png" class="footer-logo" alt="Rotor FPV">
+        <div class="social-links">
+            <a href="https://www.linkedin.com/company/team-rotorfpv" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.instagram.com/teamrotorfpv" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        </div>
+        <img src="images/vitlogo.png" class="partner-logo" alt="VIT">
     </div>
-
-    <div class="footer-section">
-        <h3>Contact Us</h3>
-      <a href="mailto:teamrotorfpv.vit@gmail.com" class="footer-link">teamrotorfpv.vit@gmail.com</a>
-      <a href="mailto:teamrotorfpv@vit.ac.in" class="footer-link">teamrotorfpv@vit.ac.in</a>
+    <div class="footer-copyright">
+        <p>&copy; 2026 Team Rotor FPV &nbsp;·&nbsp; Build.Fly.Crash.Repeat</p>
     </div>
-
-  </div>
-
-  <div class="footer-branding">
-
-    <div class="brand-left">
-      <img src="images/white VIT-ROTOR.png" class="footer-logo">
-    </div>
-
-    <div class="social-links">
-      <a href="https://www.linkedin.com/company/team-rotorfpv"><i class="fab fa-linkedin"></i></a>
-      <a href="#"><i class="fab fa-youtube"></i></a>
-      <a href="https://www.instagram.com/teamrotorfpv"><i class="fab fa-instagram"></i></a>
-      <a href="#"><i class="fab fa-facebook-f"></i></a>
-    </div>
-
-    <div class="brand-right">
-       <img src="images/vitlogo.png" class="partner-logo">
-    </div>
-
-  </div>
-
-  <div class="footer-copyright">
-    <p>&copy; Team Rotor FPV 2026 | Build.Fly.Crash.Repeat</p>
-  </div>
 </footer>
 
-<!-- JS -->
 <script>
-const images = document.querySelectorAll(".gallery-item img");
-const lightbox = document.getElementById("lightbox");
-const lightboxImg = document.getElementById("lightbox-img");
-const navbar = document.getElementById("navbar");
+// ───── PARTICLES ─────
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resize(); window.addEventListener('resize', resize);
+const particles = [];
+class Particle {
+    constructor() { this.reset(); }
+    reset() {
+        this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 0.35; this.vy = (Math.random() - 0.5) * 0.35;
+        this.radius = Math.random() * 1.4 + 0.3; this.alpha = Math.random() * 0.4 + 0.08;
+    }
+    update() { this.x += this.vx; this.y += this.vy; if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset(); }
+    draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2); ctx.fillStyle = `rgba(53,177,198,${this.alpha})`; ctx.fill(); }
+}
+for (let i = 0; i < 70; i++) particles.push(new Particle());
+function drawLines() {
+    for (let i = 0; i < particles.length; i++) for (let j = i+1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
+        const d = Math.sqrt(dx*dx + dy*dy);
+        if (d < 110) { ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); ctx.strokeStyle = `rgba(53,177,198,${0.07*(1-d/110)})`; ctx.lineWidth = 0.5; ctx.stroke(); }
+    }
+}
+function animP() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{p.update();p.draw();}); drawLines(); requestAnimationFrame(animP); }
+animP();
 
-// Open lightbox
-images.forEach(img => {
-    img.addEventListener("click", () => {
-        lightbox.style.display = "flex";
-        lightboxImg.src = img.src;
+// ───── NAVBAR ─────
+window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40); });
 
-        // Hide navbar
-        navbar.style.display = "none";
+// ───── HAMBURGER ─────
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', () => { hamburger.classList.toggle('open'); mobileMenu.classList.toggle('open'); });
+
+// ───── SCROLL REVEAL ─────
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+            setTimeout(() => e.target.classList.add('active'), (Array.from(reveals).indexOf(e.target) % 4) * 80);
+        }
     });
-});
+}, { threshold: 0.06 });
+reveals.forEach(el => observer.observe(el));
 
-// Close function
-function closeLightbox() {
-    lightbox.style.display = "none";
-    navbar.style.display = "flex"; // show navbar again
+// ───── LIGHTBOX ─────
+const items = Array.from(document.querySelectorAll('.gallery-item img'));
+const lightbox = document.getElementById('lightbox');
+const lbImg = document.getElementById('lightbox-img');
+const lbCounter = document.getElementById('lb-counter');
+let current = 0;
+
+function openLightbox(index) {
+    current = index;
+    lbImg.src = items[current].src;
+    lbCounter.textContent = `${current + 1} / ${items.length}`;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
 }
 
-// Close when clicking outside
-lightbox.addEventListener("click", function(e) {
-    if (e.target !== lightboxImg) {
-        closeLightbox();
-    }
+function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+function prevImage() {
+    current = (current - 1 + items.length) % items.length;
+    lbImg.style.opacity = '0';
+    setTimeout(() => { lbImg.src = items[current].src; lbImg.style.opacity = '1'; lbCounter.textContent = `${current + 1} / ${items.length}`; }, 150);
+}
+
+function nextImage() {
+    current = (current + 1) % items.length;
+    lbImg.style.opacity = '0';
+    setTimeout(() => { lbImg.src = items[current].src; lbImg.style.opacity = '1'; lbCounter.textContent = `${current + 1} / ${items.length}`; }, 150);
+}
+
+lbImg.style.transition = 'opacity 0.15s ease';
+
+items.forEach((img, i) => img.parentElement.addEventListener('click', () => openLightbox(i)));
+document.getElementById('lb-close').addEventListener('click', closeLightbox);
+document.getElementById('lb-prev').addEventListener('click', prevImage);
+document.getElementById('lb-next').addEventListener('click', nextImage);
+
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+
+document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') prevImage();
+    if (e.key === 'ArrowRight') nextImage();
 });
 
-// Close on ESC key
-document.addEventListener("keydown", function(e) {
-    if (e.key === "Escape") {
-        closeLightbox();
-    }
+// Touch swipe support
+let touchStartX = 0;
+lightbox.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+lightbox.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].screenX;
+    if (Math.abs(diff) > 50) diff > 0 ? nextImage() : prevImage();
 });
 </script>
-
 </body>
 </html>

@@ -4,170 +4,664 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us | Team Rotor FPV</title>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Orbitron:wght@400;600;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- ABOUT PAGE SPECIFIC STYLES --- */
+        /* ───── RESET & BASE ───── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --cyan: #35B1C6;
+            --cyan-glow: rgba(53,177,198,0.55);
+            --cyan-dim: rgba(53,177,198,0.12);
+            --cyan-border: rgba(53,177,198,0.28);
+            --white: #ffffff;
+            --dark: #000000;
+            --dark-card: rgba(10,15,25,0.82);
+        }
+
+        html { scroll-behavior: smooth; }
+
         body {
             margin: 0;
             padding: 0;
-            background-color: #000; /* Fallback color */
+            background: #000;
+            font-family: 'Space Mono', monospace;
+            color: #fff;
+            overflow-x: hidden;
         }
 
-        /* Parallax Team Background */
-        /* Animated Liquid Gradient Background */
-        /* Stealth Deep Blue Animated Background */
-        .about-parallax-bg {
+        /* ───── PARTICLES ───── */
+        #particle-canvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            /* Using only dark, deep tones for a professional stealth look */
-            background: linear-gradient(135deg, #000000, #050A30, #1C449B, #000000);
-            background-size: 300% 300%;
-            animation: stealthMove 18s ease-in-out infinite;
-            z-index: -1;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.5;
         }
 
-        /* Slow, smooth shifting logic */
-        @keyframes stealthMove {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-        .about-container {
-            padding: 80px 10%;
-            max-width: 1100px;
-            margin: 0 auto;
+        /* ───── NAVBAR ───── */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            height: 70px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--cyan-border);
+            transition: background 0.3s;
         }
 
-        /* HUD Glass Panels */
-        .glass-panel {
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(53, 177, 198, 0.2);
-            border-left: 4px solid #35B1C6;
-            padding: 40px;
-            margin-bottom: 60px;
+        .navbar.scrolled { background: rgba(0,0,0,0.95); }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo {
+            width: 42px; height: 42px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px var(--cyan));
+        }
+
+        .brand-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: #fff;
+            text-shadow: 0 0 12px var(--cyan-glow);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links a, .dropbtn {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.72);
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 4px;
+            transition: all 0.25s;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .nav-links a:hover, .dropbtn:hover {
+            color: var(--cyan);
+            background: var(--cyan-dim);
+        }
+
+        .nav-links a.active {
+            color: var(--cyan);
+            background: var(--cyan-dim);
+        }
+
+        .dropdown { position: relative; }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.96);
+            border: 1px solid var(--cyan-border);
+            border-radius: 8px;
+            overflow: hidden;
+            min-width: 120px;
+            backdrop-filter: blur(20px);
+        }
+
+        .dropdown:hover .dropdown-content { display: block; }
+
+        .dropdown-content a {
+            display: block;
+            padding: 10px 20px;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.7);
+            transition: all 0.2s;
+        }
+
+        .dropdown-content a:hover {
+            color: var(--cyan);
+            background: var(--cyan-dim);
+            padding-left: 28px;
+        }
+
+        /* HAMBURGER */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 8px;
+        }
+        .hamburger span {
+            display: block;
+            width: 24px; height: 2px;
+            background: var(--cyan);
             border-radius: 2px;
-            transition: transform 0.3s ease;
+            transition: all 0.3s;
         }
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 70px; left: 0; right: 0;
+            background: rgba(0,0,0,0.97);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--cyan-border);
+            z-index: 999;
+            padding: 20px 0;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .mobile-menu.open { display: flex; }
+        .mobile-menu a {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            padding: 12px 8%;
+            transition: all 0.2s;
+            border-left: 2px solid transparent;
+        }
+        .mobile-menu a:hover {
+            color: var(--cyan);
+            border-left-color: var(--cyan);
+            background: var(--cyan-dim);
+        }
+        .mobile-menu .sub-label {
+            font-size: 0.6rem;
+            color: var(--cyan);
+            padding: 8px 8% 4px;
+            letter-spacing: 3px;
+            opacity: 0.7;
+        }
+
+        /* ───── PAGE HERO BANNER ───── */
+        .page-hero {
+            position: relative;
+            padding-top: 70px;
+            height: clamp(220px, 35vw, 320px);
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-start;
+            overflow: hidden;
+        }
+
+        .page-hero-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(135deg, rgba(0,0,0,0.96) 0%, rgba(5,10,48,0.85) 50%, rgba(0,0,0,0.97) 100%);
+            z-index: 1;
+        }
+
+        /* Grid lines */
+        .page-hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(53,177,198,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(53,177,198,0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 2;
+            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.6) 70%, transparent 100%);
+        }
+
+        .page-hero-content {
+            position: relative;
+            z-index: 3;
+            padding: 0 clamp(5%, 10%, 160px) 48px;
+        }
+
+        .page-hero-eyebrow {
+            font-size: 0.65rem;
+            letter-spacing: 6px;
+            color: var(--cyan);
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 10px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.2s forwards;
+        }
+
+        .page-hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-weight: 900;
+            letter-spacing: clamp(4px, 1.5vw, 12px);
+            background: linear-gradient(135deg, #fff 0%, var(--cyan) 60%, #fff 100%);
+            background-size: 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 5s ease infinite, fadeUp 0.8s ease 0.4s both;
+            filter: drop-shadow(0 0 30px rgba(53,177,198,0.3));
+        }
+
+        /* Horizontal rule with glow */
+        .page-hero-line {
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--cyan), transparent);
+            margin-top: 18px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.6s forwards;
+        }
+
+        /* ───── MAIN CONTENT ───── */
+        .about-container {
+            position: relative;
+            z-index: 1;
+            padding: clamp(40px, 8vw, 80px) clamp(5%, 10%, 160px);
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(28px, 5vw, 50px);
+        }
+
+        /* ───── GLASS PANEL ───── */
+        .glass-panel {
+            background: var(--dark-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--cyan-border);
+            border-left: 3px solid var(--cyan);
+            border-radius: 10px;
+            padding: clamp(24px, 5vw, 44px);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 0% 0%, rgba(53,177,198,0.06), transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Top shimmer line on hover */
+        .glass-panel::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+            transform: scaleX(0);
+            transition: transform 0.5s ease;
+        }
+
+        .glass-panel:hover::after { transform: scaleX(1); }
 
         .glass-panel:hover {
-            transform: translateY(-5px);
-            border-color: #35B1C6;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 60px rgba(53,177,198,0.1);
+        }
+
+        /* Panel label + header */
+        .panel-label {
+            font-size: 0.6rem;
+            letter-spacing: 5px;
+            color: var(--cyan);
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 8px;
+            opacity: 0.8;
         }
 
         .tech-header {
-            font-family: 'Michroma', sans-serif;
-            color: #35B1C6;
-            font-size: 1.1rem;
-            margin-bottom: 25px;
+            font-family: 'Orbitron', sans-serif;
+            color: #fff;
+            font-size: clamp(0.95rem, 2.5vw, 1.3rem);
+            font-weight: 700;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            margin-bottom: 24px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(53,177,198,0.15);
         }
+
+        .tech-header span { color: var(--cyan); }
 
         .section-content p {
-            font-family: 'Inter', sans-serif;
-            color: #ffffff;
-            line-height: 1.8;
-            margin-bottom: 15px;
-            font-size: 0.95rem;
+            font-family: 'Space Mono', monospace;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.95;
+            margin-bottom: 14px;
+            font-size: clamp(0.72rem, 1.5vw, 0.82rem);
         }
 
-        /* Faculty Section */
+        .section-content p:last-child { margin-bottom: 0; }
+
+        .section-content p strong {
+            color: var(--cyan);
+            font-weight: 700;
+        }
+
+        /* ───── TWO-COL PANELS ───── */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(20px, 4vw, 40px);
+        }
+
+        /* ───── FACULTY CARD ───── */
         .faculty-card {
             display: flex;
-            gap: 30px;
+            gap: clamp(20px, 4vw, 36px);
             align-items: center;
         }
 
+        .faculty-pic-wrap {
+            flex-shrink: 0;
+            position: relative;
+        }
+
         .faculty-pic {
-            width: 150px;
-            height: 150px;
-            border: 2px solid #041785;
+            width: clamp(90px, 15vw, 130px);
+            height: clamp(90px, 15vw, 130px);
             object-fit: cover;
-            filter: grayscale(0.5);
+            border-radius: 8px;
+            border: 1px solid var(--cyan-border);
+            filter: grayscale(0.3) brightness(0.9);
+            transition: filter 0.3s;
+            display: block;
+        }
+
+        .faculty-card:hover .faculty-pic {
+            filter: grayscale(0) brightness(1.05);
+        }
+
+        /* Cyan corner bracket */
+        .faculty-pic-wrap::before {
+            content: '';
+            position: absolute;
+            top: -4px; left: -4px;
+            width: 18px; height: 18px;
+            border-top: 2px solid var(--cyan);
+            border-left: 2px solid var(--cyan);
+            border-radius: 2px 0 0 0;
+        }
+        .faculty-pic-wrap::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; right: -4px;
+            width: 18px; height: 18px;
+            border-bottom: 2px solid var(--cyan);
+            border-right: 2px solid var(--cyan);
+            border-radius: 0 0 2px 0;
         }
 
         .faculty-details h4 {
-            font-family: 'Michroma', sans-serif;
+            font-family: 'Orbitron', sans-serif;
             color: #fff;
-            margin: 0 0 5px 0;
+            font-size: clamp(0.85rem, 2vw, 1.05rem);
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
         }
 
         .faculty-role {
-            color: #35B1C6;
-            font-weight: 700;
-            font-size: 0.8rem;
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            color: var(--cyan);
             text-transform: uppercase;
-            margin-bottom: 15px;
+            margin-bottom: 14px;
+            display: block;
         }
 
-        /* FAQ Interactive Details */
+        .faculty-details p {
+            font-family: 'Space Mono', monospace;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.8;
+            font-size: clamp(0.7rem, 1.4vw, 0.8rem);
+        }
+
+        /* ───── FAQ ───── */
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
         .faq-item {
-            background: rgba(255, 255, 255, 0.03);
-            margin-bottom: 10px;
-            padding: 15px;
-            border-radius: 4px;
+            background: rgba(255,255,255,0.025);
+            border: 1px solid rgba(53,177,198,0.12);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: border-color 0.25s;
+        }
+
+        .faq-item[open] {
+            border-color: var(--cyan-border);
         }
 
         .faq-item summary {
-            font-family: 'Inter', sans-serif;
-            color: #AEE7EA;
-            font-weight: 600;
+            font-family: 'Space Mono', monospace;
+            font-size: clamp(0.72rem, 1.5vw, 0.82rem);
+            color: rgba(255,255,255,0.8);
+            font-weight: 700;
             cursor: pointer;
             list-style: none;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            transition: color 0.2s;
         }
 
-        .faq-item p {
-            padding-top: 15px;
-            font-size: 0.9rem;
-            color: #ccc;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            margin-top: 10px;
+        .faq-item summary::-webkit-details-marker { display: none; }
+
+        .faq-item summary::after {
+            content: '+';
+            font-size: 1.1rem;
+            color: var(--cyan);
+            flex-shrink: 0;
+            transition: transform 0.3s;
         }
-        .section-content p {
-    font-family: 'Inter', sans-serif;
-    color: #ffffff;
-    line-height: 1.8;
-    margin-bottom: 15px;
-    font-size: 0.95rem;
 
-    text-align: justify;
-    text-align-last: center;
-}
-.tech-header p{
-    font-family: 'Inter', sans-serif;
-    color: #ffffff;
-    line-height: 1.8;
-    margin-bottom: 15px;
-    font-size: 0.95rem;
+        .faq-item[open] summary::after {
+            transform: rotate(45deg);
+        }
 
-    text-align: justify;
-    text-align-last: center;
-}
-.tech-header {
-    text-align: center;
-    font-family: 'Michroma', sans-serif;
-}
+        .faq-item summary:hover { color: var(--cyan); }
+
+        .faq-body {
+            padding: 0 20px 18px;
+            border-top: 1px solid rgba(53,177,198,0.1);
+        }
+
+        .faq-body p {
+            font-family: 'Space Mono', monospace;
+            font-size: clamp(0.7rem, 1.4vw, 0.78rem);
+            color: rgba(255,255,255,0.5);
+            line-height: 1.85;
+            padding-top: 14px;
+        }
+
+        /* ───── REVEAL ───── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(36px);
+            transition: opacity 0.85s ease, transform 0.85s ease;
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.22s; }
+        .reveal-delay-3 { transition-delay: 0.34s; }
+
+        /* ───── FOOTER ───── */
+        .main-footer {
+            position: relative;
+            z-index: 1;
+            background: #000;
+            border-top: 1px solid var(--cyan-border);
+            padding: clamp(40px, 8vw, 80px) clamp(5%, 10%, 160px) 0;
+            margin-top: clamp(40px, 8vw, 80px);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            padding-bottom: 50px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-section h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            color: var(--cyan);
+            margin-bottom: 14px;
+            text-transform: uppercase;
+        }
+
+        .footer-section p,
+        .footer-section a,
+        .footer-link {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.42);
+            line-height: 1.85;
+            display: block;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-section a:hover,
+        .footer-link:hover { color: var(--cyan); }
+
+        .contact-title {
+            font-size: 0.62rem !important;
+            letter-spacing: 2px;
+            color: var(--cyan) !important;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        .footer-branding {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 32px 0;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+
+        .footer-logo, .partner-logo {
+            height: 44px;
+            object-fit: contain;
+            opacity: 0.65;
+            filter: brightness(0) invert(1);
+            transition: opacity 0.3s;
+        }
+        .footer-logo:hover, .partner-logo:hover { opacity: 1; }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-links a {
+            width: 40px; height: 40px;
+            border: 1px solid var(--cyan-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--cyan);
+            border-color: var(--cyan);
+            box-shadow: 0 0 20px rgba(53,177,198,0.3);
+            transform: translateY(-3px);
+        }
+
+        .footer-copyright {
+            padding: 20px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .footer-copyright p {
+            font-size: 0.62rem;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.2);
+            text-transform: uppercase;
+        }
+
+        /* ───── ANIMATIONS ───── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50%       { background-position: 100% 50%; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(53,177,198,0); }
+            50%       { box-shadow: 0 0 0 6px rgba(53,177,198,0.1); }
+        }
+
+        /* ───── RESPONSIVE ───── */
+        @media (max-width: 900px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .two-col { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+            .footer-branding { justify-content: center; text-align: center; }
+            .faculty-card { flex-direction: column; align-items: flex-start; gap: 20px; }
+        }
     </style>
 </head>
 <body>
 
-    <nav class="navbar">
+<!-- Particles -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
     <div class="logo-section">
         <img src="images/logo.png" class="logo" alt="Rotor FPV Logo">
         <span class="brand-name">RotorFPV</span>
@@ -175,118 +669,247 @@
 
     <div class="nav-links">
         <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        
-    <div class="dropdown">
-    <span class="dropbtn">Team <i class="fa fa-caret-down"></i></span>
-    <div class="dropdown-content">
-        <a href="team2026.html">2026</a>
-        <a href="team2025.html">2025</a>
-        <a href="team2024.html">2024</a>
-    </div>
-</div>
-
+        <a href="about.html" class="active">About</a>
+        <div class="dropdown">
+            <span class="dropbtn">Team <i class="fa fa-caret-down"></i></span>
+            <div class="dropdown-content">
+                <a href="team2026.html">2026</a>
+                <a href="team2025.html">2025</a>
+                <a href="team2024.html">2024</a>
+            </div>
+        </div>
         <a href="gallery.html">Gallery</a>
         <a href="sponsors.html">Sponsors</a>
         <a href="achievements.html">Achievements</a>
     </div>
+
+    <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+    </div>
 </nav>
 
-    <div class="about-parallax-bg"></div>
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <span class="sub-label">Team</span>
+    <a href="team2026.html" style="padding-left:12%">2026</a>
+    <a href="team2025.html" style="padding-left:12%">2025</a>
+    <a href="team2024.html" style="padding-left:12%">2024</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="sponsors.html">Sponsors</a>
+    <a href="achievements.html">Achievements</a>
+</div>
 
-    <main class="about-container">
-        
-        <section class="glass-panel">
-            <h2 class="tech-header">Team Identity</h2>
+<!-- PAGE HERO -->
+<div class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="page-hero-grid"></div>
+    <div class="page-hero-content">
+        <span class="page-hero-eyebrow">VIT Vellore · Drone Engineering</span>
+        <h1 class="page-hero-title">ABOUT US</h1>
+        <div class="page-hero-line"></div>
+    </div>
+</div>
+
+<!-- CONTENT -->
+<main class="about-container">
+
+    <!-- Team Identity + Workspace (2-col on desktop) -->
+    <div class="two-col">
+
+        <div class="glass-panel reveal">
+            <span class="panel-label">Who We Are</span>
+            <h2 class="tech-header">Team <span>Identity</span></h2>
             <div class="section-content">
-                <p>Team Rotor FPV is a specialized drone development collective at VIT University, Vellore. We operate at the intersection of high-speed aerial cinematography and advanced robotic engineering.</p>
-                <p>Our work spans from designing ultra-light racing frames to developing autonomous flight algorithms for search and rescue simulations.</p>
+                <p>Team Rotor FPV is a specialized drone development collective at <strong>VIT University, Vellore</strong>. We operate at the intersection of high-speed aerial cinematography and advanced robotic engineering.</p>
+                <p>Our work spans from designing ultra-light racing frames to developing autonomous flight algorithms for search and rescue simulations — pushing the boundaries of what university drone teams can achieve.</p>
             </div>
-        </section>
+        </div>
 
-        <section class="glass-panel">
-            <h2 class="tech-header">Workspace & Grounds</h2>
+        <div class="glass-panel reveal reveal-delay-1">
+            <span class="panel-label">Where We Work</span>
+            <h2 class="tech-header">Workspace <span>&amp; Grounds</span></h2>
             <div class="section-content">
-                <p>Operating out of <strong>Creation Labs</strong>, our hangar serves as a primary hub for UAS research. We maintain a full suite of rapid prototyping tools including CNC carbon cutters and precision soldering stations.</p>
-                <p>Our flight testing occurs at designated university grounds, providing the clearance necessary for high-Betaflight tuning and 6S power system stress tests.</p>
+                <p>Operating out of <strong>GDN 129</strong>, our primary lab serves as a hub for UAS research. We maintain a full suite of rapid prototyping tools including CNC carbon cutters and precision soldering stations.</p>
+                <p>Flight testing occurs at <strong>SJT Ground</strong> and <strong>KC Lawn</strong>, providing the clearance necessary for high-Betaflight tuning and 6S power system stress tests.</p>
             </div>
-        </section>
+        </div>
 
-        <section class="glass-panel">
-            <h2 class="tech-header">Faculty Organizer</h2>
-            <div class="faculty-card">
+    </div>
+
+    <!-- Faculty -->
+    <div class="glass-panel reveal">
+        <span class="panel-label">Guidance</span>
+        <h2 class="tech-header">Faculty <span>Organizer</span></h2>
+        <div class="faculty-card">
+            <div class="faculty-pic-wrap">
                 <img src="images/faculty-organizer.jpg" alt="Faculty Mentor" class="faculty-pic">
-                <div class="faculty-details">
-                    <h4>Dr. [Name]</h4>
-                    <p class="faculty-role">Mentor & Project Coordinator</p>
-                    <p class="section-content">Overseeing technical compliance and institutional research goals, ensuring our team remains the benchmark for UAS excellence on campus.</p>
+            </div>
+            <div class="faculty-details">
+                <h4>Dr. [Name]</h4>
+                <span class="faculty-role">Mentor &amp; Project Coordinator</span>
+                <p>Overseeing technical compliance and institutional research goals, ensuring Team Rotor FPV remains the benchmark for UAS excellence on campus. Their guidance bridges academic rigor with competitive performance.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="glass-panel reveal">
+        <span class="panel-label">Common Questions</span>
+        <h2 class="tech-header">Frequently <span>Asked</span></h2>
+        <div class="faq-list">
+
+            <details class="faq-item">
+                <summary>How can I join Rotor FPV?</summary>
+                <div class="faq-body">
+                    <p>Recruitments happen once a year, typically at the start of the academic term. We look for students passionate about embedded systems, structural design, aerodynamics, or professional piloting. No prior drone experience is required — just drive.</p>
                 </div>
-            </div>
-        </section>
+            </details>
 
-        <section class="glass-panel">
-            <h2 class="tech-header">Frequently Asked</h2>
-            <div class="faq-container">
-                <details class="faq-item">
-                    <summary>How can I join Rotor FPV?</summary>
-                    <p>Recruitments happen once a year. We look for students passionate about embedded systems, structural design, or professional piloting.</p>
-                </details>
-                <details class="faq-item">
-                    <summary>Do I need to own a drone to join?</summary>
-                    <p>No. We provide the equipment, simulators, and training required to go from a beginner to a certified team pilot.</p>
-                </details>
-            </div>
-        </section>
+            <details class="faq-item">
+                <summary>Do I need to own a drone to join?</summary>
+                <div class="faq-body">
+                    <p>Not at all. We provide all the equipment, simulators, and training required to take you from zero to a certified team pilot. Our lab is equipped with everything you need to learn, build, and fly.</p>
+                </div>
+            </details>
 
-    </main>
+            <details class="faq-item">
+                <summary>What competitions does the team participate in?</summary>
+                <div class="faq-body">
+                    <p>We compete in national drone championships including the Indian Space Drone Championship (ISDC), where we secured 1st place in 2026. We also participate in inter-university UAV challenges and autonomous flight events.</p>
+                </div>
+            </details>
 
-    <footer class="main-footer">
-  <div class="footer-grid">
+            <details class="faq-item">
+                <summary>Which departments can apply?</summary>
+                <div class="faq-body">
+                    <p>We welcome students from all engineering disciplines — mechanical, electrical, electronics, computer science, and even design. The team thrives on multi-disciplinary collaboration, and every skill set has a role here.</p>
+                </div>
+            </details>
 
-    <div class="footer-section">
-      <h3>Saarika Rajen</h3>
-      <p class="contact-detail">+91-8919936428</p>
-      <p class="contact-title">Team Captain</p>
+        </div>
     </div>
 
-    <div class="footer-section">
-      <h3>Vellore Institute of Technology</h3>
-      <p>Vellore, Tamil Nadu - 632014</p>
+</main>
+
+<!-- FOOTER -->
+<footer class="main-footer">
+    <div class="footer-grid">
+        <div class="footer-section">
+            <h3>Saarika Rajen</h3>
+            <p>+91-8919936428</p>
+            <p class="contact-title">Team Captain</p>
+        </div>
+        <div class="footer-section">
+            <h3>Location</h3>
+            <p>Vellore Institute of Technology</p>
+            <p>Vellore, Tamil Nadu — 632014</p>
+        </div>
+        <div class="footer-section">
+            <h3>Contact Us</h3>
+            <a href="mailto:teamrotorfpv.vit@gmail.com" class="footer-link">teamrotorfpv.vit@gmail.com</a>
+            <a href="mailto:teamrotorfpv@vit.ac.in" class="footer-link">teamrotorfpv@vit.ac.in</a>
+        </div>
     </div>
 
-    <div class="footer-section">
-        <h3>Contact Us</h3>
-      <a href="mailto:teamrotorfpv.vit@gmail.com" class="footer-link">teamrotorfpv.vit@gmail.com</a>
-      <a href="mailto:teamrotorfpv@vit.ac.in" class="footer-link">teamrotorfpv@vit.ac.in</a>
+    <div class="footer-branding">
+        <img src="images/white VIT-ROTOR.png" class="footer-logo" alt="Rotor FPV">
+        <div class="social-links">
+            <a href="https://www.linkedin.com/company/team-rotorfpv" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.instagram.com/teamrotorfpv" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        </div>
+        <img src="images/vitlogo.png" class="partner-logo" alt="VIT">
     </div>
 
-  </div>
-
-  <div class="footer-branding">
-
-    <div class="brand-left">
-      <img src="images\white VIT-ROTOR.png" class="footer-logo" alt="Rotor FPV">
-      
+    <div class="footer-copyright">
+        <p>&copy; 2026 Team Rotor FPV &nbsp;·&nbsp; Build.Fly.Crash.Repeat</p>
     </div>
-
-    <div class="social-links">
-      <a href="https://www.linkedin.com/company/team-rotorfpv" target="_blank"><i class="fab fa-linkedin"></i></a>
-      <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
-      <a href="https://www.instagram.com/teamrotorfpv" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
-    </div>
-
-    <div class="brand-right">
-       <img src="images/vitlogo.png" class="partner-logo" alt="VIT">
-    </div>
-
-  </div>
-
-  <div class="footer-copyright">
-    <p>&copy; Copyright - Team Rotor FPV 2026 | Build.Fly.Crash.Repeat</p>
-  </div>
-
 </footer>
 
+<script>
+// ───── PARTICLES ─────
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resize();
+window.addEventListener('resize', resize);
+
+const PARTICLE_COUNT = 70;
+const particles = [];
+
+class Particle {
+    constructor() { this.reset(); }
+    reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 0.35;
+        this.vy = (Math.random() - 0.5) * 0.35;
+        this.radius = Math.random() * 1.4 + 0.3;
+        this.alpha = Math.random() * 0.45 + 0.08;
+    }
+    update() {
+        this.x += this.vx; this.y += this.vy;
+        if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+    }
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(53,177,198,${this.alpha})`;
+        ctx.fill();
+    }
+}
+
+for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
+
+function drawLines() {
+    for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 110) {
+                ctx.beginPath();
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+                ctx.strokeStyle = `rgba(53,177,198,${0.07 * (1 - dist / 110)})`;
+                ctx.lineWidth = 0.5;
+                ctx.stroke();
+            }
+        }
+    }
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    drawLines();
+    requestAnimationFrame(animate);
+}
+animate();
+
+// ───── NAVBAR SCROLL ─────
+window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// ───── HAMBURGER ─────
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+});
+
+// ───── SCROLL REVEAL ─────
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); });
+}, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
