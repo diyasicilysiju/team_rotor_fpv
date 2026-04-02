@@ -3,95 +3,461 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery | Team Rotor FPV</title>
-    
+    <title>Sponsors | Team Rotor FPV</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Orbitron:wght@400;600;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        .gallery-section {
-            padding: 80px 8%;
-            background: #0a0f1c;
-            color: white;
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --cyan: #35B1C6;
+            --cyan-glow: rgba(53,177,198,0.55);
+            --cyan-dim: rgba(53,177,198,0.12);
+            --cyan-border: rgba(53,177,198,0.28);
+            --dark-card: rgba(10,15,25,0.82);
+            --gold: #f5c842;
+            --silver: #b0bec5;
+            --bronze: #cd7f32;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0; padding: 0;
+            background: #000;
+            font-family: 'Space Mono', monospace;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* ───── PARTICLES ───── */
+        #particle-canvas {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none; z-index: 0; opacity: 0.5;
+        }
+
+        /* ───── NAVBAR ───── */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%; height: 70px;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--cyan-border); transition: background 0.3s;
+        }
+        .navbar.scrolled { background: rgba(0,0,0,0.95); }
+        .logo-section { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo { width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 0 8px var(--cyan)); }
+        .brand-name { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; font-weight: 700; letter-spacing: 4px; color: #fff; text-shadow: 0 0 12px var(--cyan-glow); }
+        .nav-links { display: flex; align-items: center; gap: 8px; }
+        .nav-links a, .dropbtn { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.72); text-decoration: none; padding: 8px 14px; border-radius: 4px; transition: all 0.25s; cursor: pointer; border: none; background: none; }
+        .nav-links a:hover, .dropbtn:hover { color: var(--cyan); background: var(--cyan-dim); }
+        .nav-links a.active { color: var(--cyan); background: var(--cyan-dim); }
+        .dropdown { position: relative; }
+        .dropdown-content { display: none; position: absolute; top: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.96); border: 1px solid var(--cyan-border); border-radius: 8px; overflow: hidden; min-width: 120px; backdrop-filter: blur(20px); }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a { display: block; padding: 10px 20px; font-size: 0.7rem; letter-spacing: 2px; color: rgba(255,255,255,0.7); transition: all 0.2s; }
+        .dropdown-content a:hover { color: var(--cyan); background: var(--cyan-dim); padding-left: 28px; }
+
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
+        .hamburger span { display: block; width: 24px; height: 2px; background: var(--cyan); border-radius: 2px; transition: all 0.3s; }
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        .mobile-menu { display: none; position: fixed; top: 70px; left: 0; right: 0; background: rgba(0,0,0,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid var(--cyan-border); z-index: 999; padding: 20px 0; flex-direction: column; gap: 4px; }
+        .mobile-menu.open { display: flex; }
+        .mobile-menu a { font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.7); text-decoration: none; padding: 12px 8%; transition: all 0.2s; border-left: 2px solid transparent; }
+        .mobile-menu a:hover { color: var(--cyan); border-left-color: var(--cyan); background: var(--cyan-dim); }
+        .mobile-menu .sub-label { font-size: 0.6rem; color: var(--cyan); padding: 8px 8% 4px; letter-spacing: 3px; opacity: 0.7; }
+
+        /* ───── PAGE HERO ───── */
+        .page-hero { position: relative; padding-top: 70px; height: clamp(220px, 35vw, 320px); display: flex; align-items: flex-end; justify-content: flex-start; overflow: hidden; }
+        .page-hero-bg { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(0,0,0,0.97) 0%, rgba(5,10,48,0.85) 50%, rgba(0,0,0,0.97) 100%); z-index: 1; }
+        .page-hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(53,177,198,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(53,177,198,0.04) 1px, transparent 1px); background-size: 60px 60px; z-index: 2; mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.6) 70%, transparent 100%); }
+        .page-hero-content { position: relative; z-index: 3; padding: 0 clamp(5%, 10%, 160px) 48px; }
+        .page-hero-eyebrow { font-size: 0.65rem; letter-spacing: 6px; color: var(--cyan); text-transform: uppercase; display: block; margin-bottom: 10px; opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards; }
+        .page-hero-title { font-family: 'Orbitron', sans-serif; font-size: clamp(2rem, 6vw, 4rem); font-weight: 900; letter-spacing: clamp(4px, 1.5vw, 12px); background: linear-gradient(135deg, #fff 0%, var(--cyan) 60%, #fff 100%); background-size: 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradientShift 5s ease infinite, fadeUp 0.8s ease 0.4s both; filter: drop-shadow(0 0 30px rgba(53,177,198,0.3)); }
+        .page-hero-line { width: 80px; height: 2px; background: linear-gradient(90deg, var(--cyan), transparent); margin-top: 18px; opacity: 0; animation: fadeUp 0.8s ease 0.6s forwards; }
+
+        /* ───── MAIN CONTENT ───── */
+        .sponsors-container {
+            position: relative; z-index: 1;
+            padding: clamp(40px, 6vw, 70px) clamp(5%, 10%, 160px) clamp(60px, 10vw, 100px);
+            max-width: 1300px; margin: 0 auto;
+        }
+
+        /* ───── INTRO BLOCK ───── */
+        .sponsors-intro {
             text-align: center;
+            max-width: 700px;
+            margin: 0 auto clamp(50px, 8vw, 80px);
         }
 
-        .gallery-section h1 {
-            font-family: 'Michroma', sans-serif;
-            margin-bottom: 40px;
-            font-size: 32px;
+        .section-label {
+            font-size: 0.65rem; letter-spacing: 5px;
+            color: var(--cyan); text-transform: uppercase;
+            display: block; margin-bottom: 10px;
         }
 
-        .gallery-grid {
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+            font-weight: 700; color: #fff;
+            letter-spacing: 2px; margin-bottom: 20px;
+        }
+
+        .sponsors-intro p {
+            font-size: clamp(0.72rem, 1.5vw, 0.82rem);
+            color: rgba(255,255,255,0.5);
+            line-height: 1.95;
+        }
+
+        /* ───── FLAT SPONSORS GRID ───── */
+        .sponsors-grid-flat {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(16px, 3vw, 28px);
+            margin-bottom: clamp(44px, 8vw, 72px);
         }
 
-        .gallery-item {
-            overflow: hidden;
-            border-radius: 12px;
+        /* ───── SPONSOR CARD ───── */
+        .sponsor-card {
             position: relative;
-            cursor: pointer;
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            transition: 0.4s ease;
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.1);
-        }
-
-        /* Lightbox */
-        .lightbox {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 999;
-        }
-
-        .lightbox img {
-            max-width: 90%;
-            max-height: 80%;
+            background: var(--dark-card);
+            border: 1px solid var(--cyan-border);
             border-radius: 10px;
+            padding: clamp(24px, 4vw, 44px) clamp(20px, 3vw, 36px);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 16px; text-align: center;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            cursor: default;
+            min-height: 160px;
         }
 
-        .lightbox span {
-            position: absolute;
-            top: 20px;
-            right: 40px;
-            font-size: 30px;
-            color: white;
-            cursor: pointer;
+        /* Corner brackets */
+        .sponsor-card::before, .sponsor-card::after {
+            content: ''; position: absolute;
+            width: 12px; height: 12px;
+            border: 2px solid var(--cyan); opacity: 0.2;
+            transition: opacity 0.3s;
+        }
+        .sponsor-card::before { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
+        .sponsor-card::after  { bottom: 10px; right: 10px; border-left: 0; border-top: 0; }
+
+        .sponsor-card:hover {
+            border-color: var(--cyan);
+            transform: translateY(-5px);
+            box-shadow: 0 16px 50px rgba(0,0,0,0.5), 0 0 30px rgba(53,177,198,0.1);
+        }
+        .sponsor-card:hover::before,
+        .sponsor-card:hover::after { opacity: 0.7; }
+
+        /* Glow on hover */
+        .sponsor-card .card-glow {
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, rgba(53,177,198,0.08), transparent 65%);
+            pointer-events: none; opacity: 0; transition: opacity 0.4s;
+        }
+        .sponsor-card:hover .card-glow { opacity: 1; }
+
+
+
+        /* ───── LOGO PLACEHOLDER ───── */
+        .logo-placeholder {
+            width: 100%; max-width: 200px;
+            height: clamp(50px, 8vw, 80px);
+            border: 1px dashed rgba(53,177,198,0.25);
+            border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            gap: 8px; color: rgba(255,255,255,0.2);
+            font-size: 0.6rem; letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            position: relative; z-index: 1;
+        }
+
+        .logo-placeholder i { font-size: 1rem; color: rgba(53,177,198,0.3); }
+
+
+
+        .sponsor-card:hover .logo-placeholder {
+            border-color: rgba(53,177,198,0.5);
+            color: rgba(255,255,255,0.35);
+        }
+
+        /* Replace .logo-placeholder img with actual logo when ready */
+        .logo-placeholder img {
+            max-width: 100%; max-height: 100%;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+            opacity: 0.85;
+            transition: opacity 0.3s;
+        }
+        .sponsor-card:hover .logo-placeholder img { opacity: 1; }
+
+        /* Sponsor name */
+        .sponsor-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(0.72rem, 1.5vw, 0.9rem);
+            font-weight: 700; letter-spacing: 2px;
+            color: rgba(255,255,255,0.7);
+            position: relative; z-index: 1;
+        }
+
+        .sponsor-card.title-tier .sponsor-name { font-size: clamp(0.85rem, 2vw, 1.1rem); color: #fff; }
+
+        .sponsor-tagline {
+            font-size: 0.62rem; letter-spacing: 1px;
+            color: rgba(255,255,255,0.32);
+            position: relative; z-index: 1;
+        }
+
+        /* ───── CTA SECTION ───── */
+        .cta-section {
+            position: relative; z-index: 1;
+            margin-top: clamp(20px, 4vw, 40px);
+            padding: clamp(36px, 6vw, 60px);
+            background: var(--dark-card);
+            border: 1px solid var(--cyan-border);
+            border-radius: 12px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, rgba(53,177,198,0.07), transparent 60%);
+            pointer-events: none;
+        }
+
+        .cta-section::after {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+        }
+
+        .cta-section h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            font-weight: 700; letter-spacing: 3px;
+            color: #fff; margin-bottom: 14px;
+            position: relative; z-index: 1;
+        }
+
+        .cta-section h3 span { color: var(--cyan); }
+
+        .cta-section p {
+            font-size: clamp(0.72rem, 1.5vw, 0.82rem);
+            color: rgba(255,255,255,0.5);
+            line-height: 1.9; max-width: 600px;
+            margin: 0 auto 28px;
+            position: relative; z-index: 1;
+        }
+
+        .cta-buttons {
+            display: flex; gap: 14px;
+            justify-content: center; flex-wrap: wrap;
+            position: relative; z-index: 1;
+        }
+
+        .btn-primary {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase;
+            color: #000; background: var(--cyan); border: none;
+            padding: 13px 30px; border-radius: 4px; cursor: pointer;
+            text-decoration: none; transition: all 0.3s;
+            box-shadow: 0 0 20px rgba(53,177,198,0.35);
+        }
+        .btn-primary:hover { background: #fff; box-shadow: 0 0 36px rgba(53,177,198,0.6); transform: translateY(-2px); }
+
+        .btn-outline {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase;
+            color: var(--cyan); background: transparent;
+            border: 1px solid var(--cyan-border);
+            padding: 13px 30px; border-radius: 4px; cursor: pointer;
+            text-decoration: none; transition: all 0.3s;
+        }
+        .btn-outline:hover { border-color: var(--cyan); background: var(--cyan-dim); transform: translateY(-2px); }
+
+
+
+        /* ───── REVEAL ───── */
+        .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.85s ease, transform 0.85s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal-d1 { transition-delay: 0.1s; }
+        .reveal-d2 { transition-delay: 0.2s; }
+        .reveal-d3 { transition-delay: 0.3s; }
+        .reveal-d4 { transition-delay: 0.4s; }
+
+         .main-footer {
+    position: relative;
+    z-index: 1;
+    background: #000;
+    border-top: 1px solid var(--cyan-border);
+    padding: clamp(40px, 8vw, 80px) clamp(5%, 10%, 160px) 0;
+}
+
+/* ===== TOP GRID (TEXT) ===== */
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 60px; /* balanced spacing */
+    padding-bottom: 50px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    text-align: center;
+}
+
+.footer-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-section h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    color: var(--cyan);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+.footer-section p,
+.footer-section a {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.6;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-section a:hover {
+    color: var(--cyan);
+}
+
+.contact-title {
+    font-size: 0.65rem !important;
+    letter-spacing: 2px;
+    color: var(--cyan) !important;
+    text-transform: uppercase;
+    margin-top: 4px;
+}
+
+/* ===== LOGO + SOCIAL ROW (PERFECT ALIGNMENT) ===== */
+.footer-branding {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    padding: 32px 0;
+}
+
+/* align each column perfectly */
+.footer-branding .footer-logo {
+    justify-self: center;
+    transform: translateX(-28px);
+}
+
+.footer-branding .social-links {
+    justify-self: center;
+}
+
+.footer-branding .partner-logo {
+    justify-self: center;
+    transform: translateX(30px);
+}
+
+/* logos */
+.footer-logo,
+.partner-logo {
+    height: 65px; /* slightly balanced */
+    object-fit: contain;
+    opacity: 0.7;
+    filter: brightness(0) invert(1);
+    transition: all 0.3s ease;
+}
+
+.footer-logo:hover,
+.partner-logo:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+/* ===== SOCIAL ICONS ===== */
+.social-links {
+    display: flex;
+    gap: 14px;
+}
+
+.social-links a {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--cyan-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.5);
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.social-links a:hover {
+    color: var(--cyan);
+    border-color: var(--cyan);
+    box-shadow: 0 0 20px rgba(53,177,198,0.3);
+    transform: translateY(-3px);
+}
+
+/* ===== COPYRIGHT ===== */
+.footer-copyright {
+    padding: 20px 0;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.footer-copyright p {
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.2);
+    text-transform: uppercase;
+}
+
+        /* ───── ANIMATIONS ───── */
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes gradientShift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+        /* ───── RESPONSIVE ───── */
+        @media (max-width: 900px) {
+            .nav-links { display: none; } .hamburger { display: flex; }
+            .sponsors-grid-flat { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .sponsors-grid-flat { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+            .footer-branding { justify-content: center; }
         }
     </style>
 </head>
-
 <body>
 
-<!-- NAVBAR (UNCHANGED) -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- NAVBAR -->
 <nav class="navbar" id="navbar">
     <div class="logo-section">
-        <img src="images/logo.png" class="logo">
+        <img src="images/logo.png" class="logo" alt="Rotor FPV Logo">
         <span class="brand-name">RotorFPV</span>
     </div>
-
     <div class="nav-links">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
-
         <div class="dropdown">
             <span class="dropbtn">Team <i class="fa fa-caret-down"></i></span>
             <div class="dropdown-content">
@@ -100,60 +466,150 @@
                 <a href="team2024.html">2024</a>
             </div>
         </div>
-
         <a href="gallery.html">Gallery</a>
-        <a href="sponsors.html">Sponsors</a>
+        <a href="sponsors.html" class="active">Sponsors</a>
         <a href="achievements.html">Achievements</a>
     </div>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
 </nav>
 
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <span class="sub-label">Team</span>
+    <a href="team2026.html" style="padding-left:12%">2026</a>
+    <a href="team2025.html" style="padding-left:12%">2025</a>
+    <a href="team2024.html" style="padding-left:12%">2024</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="sponsors.html">Sponsors</a>
+    <a href="achievements.html">Achievements</a>
+</div>
 
-<!-- FOOTER (UNCHANGED) -->
+<!-- PAGE HERO -->
+<div class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="page-hero-grid"></div>
+    <div class="page-hero-content">
+        <span class="page-hero-eyebrow">VIT Vellore · Partners & Supporters</span>
+        <h1 class="page-hero-title">SPONSORS</h1>
+        <div class="page-hero-line"></div>
+    </div>
+</div>
+
+<!-- CONTENT -->
+<main class="sponsors-container">
+
+    <!-- Intro -->
+    <div class="sponsors-intro reveal">
+        <span class="section-label">Our Partners</span>
+        <h2 class="section-title">Powered by Those Who Believe</h2>
+        <p>Team Rotor FPV is made possible by the generous support of our sponsors. From precision components to R&D funding, every partnership fuels our mission to push the boundaries of drone engineering in India.</p>
+    </div>
+
+    <!-- SPONSORS GRID -->
+    <div class="sponsors-grid-flat">
+        <div class="sponsor-card reveal">
+            <div class="card-glow"></div>
+            <div class="logo-placeholder"><i class="fas fa-image"></i><span>Your Logo</span></div>
+            <div class="sponsor-name">Sponsor Name</div>
+        </div>
+        <div class="sponsor-card reveal reveal-d1">
+            <div class="card-glow"></div>
+            <div class="logo-placeholder"><i class="fas fa-image"></i><span>Your Logo</span></div>
+            <div class="sponsor-name">Sponsor Name</div>
+        </div>
+        <div class="sponsor-card reveal reveal-d2">
+            <div class="card-glow"></div>
+            <div class="logo-placeholder"><i class="fas fa-image"></i><span>Your Logo</span></div>
+            <div class="sponsor-name">Sponsor Name</div>
+        </div>
+        <div class="sponsor-card reveal reveal-d3">
+            <div class="card-glow"></div>
+            <div class="logo-placeholder"><i class="fas fa-image"></i><span>Your Logo</span></div>
+            <div class="sponsor-name">Sponsor Name</div>
+        </div>
+        <div class="sponsor-card reveal">
+            <div class="card-glow"></div>
+            <div class="logo-placeholder"><i class="fas fa-image"></i><span>Your Logo</span></div>
+            <div class="sponsor-name">Sponsor Name</div>
+        </div>
+        <div class="sponsor-card reveal reveal-d1">
+            <div class="card-glow"></div>
+            <div class="logo-placeholder"><i class="fas fa-image"></i><span>Your Logo</span></div>
+            <div class="sponsor-name">Sponsor Name</div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section reveal">
+        <h3>Become a <span>Sponsor</span></h3>
+        <p>Interested in partnering with Team Rotor FPV? We offer flexible sponsorship packages tailored to your brand's goals — from product placement to full title sponsorship. Let's build something great together.</p>
+        <div class="cta-buttons">
+            <a href="/cdn-cgi/l/email-protection#473322262a352833283521373169312e3307202a262e2b6924282a" class="btn-primary">Get in Touch</a>
+            <a href="/cdn-cgi/l/email-protection#9febfafef2edf0ebf0edf9efe9b1e9f6ebdff8f2fef6f3b1fcf0f2a0eceafdf5fafceba2cceff0f1ecf0edecf7f6efbaadafcfedf0eff0ecfef3" class="btn-outline">Download Proposal</a>
+        </div>
+    </div>
+
+</main>
+
+<!-- FOOTER -->
 <footer class="main-footer">
-  <div class="footer-grid">
-
-    <div class="footer-section">
-      <h3>Saarika Rajen</h3>
-      <p class="contact-detail">+91-8919936428</p>
-      <p class="contact-title">Team Captain</p>
+    <div class="footer-grid">
+        <div class="footer-section">
+            <h3>Saarika Rajen</h3>
+            <p>  +91-8919936428</p>
+            <p class="contact-title">Team Captain</p>
+        </div>
+        <div class="footer-section">
+            <h3>Location</h3>
+            <p>Vellore Institute of Technology</p>
+            <p>Vellore, Tamil Nadu — 632014</p>
+        </div>
+        <div class="footer-section">
+            <h3>Contact Us</h3>
+            <a href="mailto:teamrotorfpv.vit@gmail.com">teamrotorfpv.vit@gmail.com</a>
+            <a href="mailto:teamrotorfpv@vit.ac.in">teamrotorfpv@vit.ac.in</a>
+        </div>
     </div>
 
-    <div class="footer-section">
-      <h3>Vellore Institute of Technology</h3>
-      <p>Vellore, Tamil Nadu - 632014</p>
+    <div class="footer-branding">
+        <img src="images/white VIT-ROTOR.png" class="footer-logo" alt="Rotor FPV">
+        <div class="social-links">
+            <a href="https://www.linkedin.com/company/team-rotorfpv" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.instagram.com/teamrotorfpv" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        </div>
+        <img src="images/vitlogo.png" class="partner-logo" alt="VIT">
     </div>
 
-    <div class="footer-section">
-        <h3>Contact Us</h3>
-      <a href="mailto:teamrotorfpv.vit@gmail.com" class="footer-link">teamrotorfpv.vit@gmail.com</a>
-      <a href="mailto:teamrotorfpv@vit.ac.in" class="footer-link">teamrotorfpv@vit.ac.in</a>
+    <div class="footer-copyright">
+        <p>&copy; 2026 Team Rotor FPV &nbsp;·&nbsp; Build.Fly.Crash.Repeat</p>
     </div>
-
-  </div>
-
-  <div class="footer-branding">
-
-    <div class="brand-left">
-      <img src="images/white VIT-ROTOR.png" class="footer-logo">
-    </div>
-
-    <div class="social-links">
-      <a href="https://www.linkedin.com/company/team-rotorfpv"><i class="fab fa-linkedin"></i></a>
-      <a href="#"><i class="fab fa-youtube"></i></a>
-      <a href="https://www.instagram.com/teamrotorfpv"><i class="fab fa-instagram"></i></a>
-      <a href="#"><i class="fab fa-facebook-f"></i></a>
-    </div>
-
-    <div class="brand-right">
-       <img src="images/vitlogo.png" class="partner-logo">
-    </div>
-
-  </div>
-
-  <div class="footer-copyright">
-    <p>&copy; Team Rotor FPV 2026 | Build.Fly.Crash.Repeat</p>
-  </div>
 </footer>
 
-</body>
-</html>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ───── PARTICLES ─────
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resize(); window.addEventListener('resize', resize);
+const particles = [];
+class Particle {
+    constructor() { this.reset(); }
+    reset() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.vx = (Math.random()-0.5)*0.35; this.vy = (Math.random()-0.5)*0.35; this.radius = Math.random()*1.4+0.3; this.alpha = Math.random()*0.4+0.08; }
+    update() { this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height) this.reset(); }
+    draw() { ctx.beginPath(); ctx.arc(this.x,this.y,this.radius,0,Math.PI*2); ctx.fillStyle=`rgba(53,177,198,${this.alpha})`; ctx.fill(); }
+}
+for(let i=0;i<70;i++) particles.push(new Particle());
+function drawLines() { for(let i=0;i<particles.length;i++) for(let j=i+1;j<particles.length;j++){const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<110){ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle=`rgba(53,177,198,${0.07*(1-d/110)})`;ctx.lineWidth=0.5;ctx.stroke();}} }
+function animP(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach(p=>{p.update();p.draw();});drawLines();requestAnimationFrame(animP);}
+animP();
+
+// ───── NAVBAR ─────
+window.addEventListener('scroll',()=>{document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>40);});
+
+// ───── HAMBURGER ─────
+const hambu
