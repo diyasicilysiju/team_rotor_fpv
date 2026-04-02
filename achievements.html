@@ -380,67 +380,140 @@
         .reveal-d3 { transition-delay: 0.24s; }
         .reveal-d4 { transition-delay: 0.32s; }
 
-        /* ───── FOOTER ───── */
-        .main-footer {
-            position: relative; z-index: 1;
-            background: #000;
-            border-top: 1px solid var(--cyan-border);
-            padding: clamp(40px, 8vw, 80px) clamp(5%, 10%, 160px) 0;
-        }
-        .footer-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 40px; padding-bottom: 50px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .footer-section h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.72rem; letter-spacing: 3px;
-            color: var(--cyan); margin-bottom: 14px; text-transform: uppercase;
-        }
-        .footer-section p,
-        .footer-section a,
-        .footer-link {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.75rem; color: rgba(255,255,255,0.42);
-            line-height: 1.85; display: block;
-            text-decoration: none; transition: color 0.2s;
-        }
-        .footer-section a:hover, .footer-link:hover { color: var(--cyan); }
-        .contact-title {
-            font-size: 0.62rem !important; letter-spacing: 2px;
-            color: var(--cyan) !important; text-transform: uppercase; margin-top: 4px;
-        }
-        .footer-branding {
-            display: flex; align-items: center;
-            justify-content: space-between; padding: 32px 0;
-            flex-wrap: wrap; gap: 24px;
-        }
-        .footer-logo, .partner-logo {
-            height: 44px; object-fit: contain;
-            opacity: 0.65; filter: brightness(0) invert(1); transition: opacity 0.3s;
-        }
-        .footer-logo:hover, .partner-logo:hover { opacity: 1; }
-        .social-links { display: flex; gap: 12px; }
-        .social-links a {
-            width: 40px; height: 40px;
-            border: 1px solid var(--cyan-border); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            color: rgba(255,255,255,0.5); font-size: 0.85rem;
-            text-decoration: none; transition: all 0.3s;
-        }
-        .social-links a:hover {
-            color: var(--cyan); border-color: var(--cyan);
-            box-shadow: 0 0 20px rgba(53,177,198,0.3);
-            transform: translateY(-3px);
-        }
-        .footer-copyright {
-            padding: 20px 0; text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.04);
-        }
-        .footer-copyright p {
-            font-size: 0.62rem; letter-spacing: 2px;
-            color: rgba(255,255,255,0.2); text-transform: uppercase;
-        }
+          /* ───── FOOTER ───── */
+       .main-footer {
+    position: relative;
+    z-index: 1;
+    background: #000;
+    border-top: 1px solid var(--cyan-border);
+    padding: clamp(40px, 8vw, 80px) clamp(5%, 10%, 160px) 0;
+}
+
+/* ===== TOP GRID (TEXT) ===== */
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 60px; /* balanced spacing */
+    padding-bottom: 50px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    text-align: center;
+}
+
+.footer-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-section h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    color: var(--cyan);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+.footer-section p,
+.footer-section a {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.6;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-section a:hover {
+    color: var(--cyan);
+}
+
+.contact-title {
+    font-size: 0.65rem !important;
+    letter-spacing: 2px;
+    color: var(--cyan) !important;
+    text-transform: uppercase;
+    margin-top: 4px;
+}
+
+/* ===== LOGO + SOCIAL ROW (PERFECT ALIGNMENT) ===== */
+.footer-branding {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    padding: 32px 0;
+}
+
+/* align each column perfectly */
+.footer-branding .footer-logo {
+    justify-self: center;
+    transform: translateX(-28px);
+}
+
+.footer-branding .social-links {
+    justify-self: center;
+}
+
+.footer-branding .partner-logo {
+    justify-self: center;
+    transform: translateX(30px);
+}
+
+/* logos */
+.footer-logo,
+.partner-logo {
+    height: 65px; /* slightly balanced */
+    object-fit: contain;
+    opacity: 0.7;
+    filter: brightness(0) invert(1);
+    transition: all 0.3s ease;
+}
+
+.footer-logo:hover,
+.partner-logo:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+/* ===== SOCIAL ICONS ===== */
+.social-links {
+    display: flex;
+    gap: 14px;
+}
+
+.social-links a {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--cyan-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.5);
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.social-links a:hover {
+    color: var(--cyan);
+    border-color: var(--cyan);
+    box-shadow: 0 0 20px rgba(53,177,198,0.3);
+    transform: translateY(-3px);
+}
+
+/* ===== COPYRIGHT ===== */
+.footer-copyright {
+    padding: 20px 0;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.footer-copyright p {
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.2);
+    text-transform: uppercase;
+}
 
         /* ───── ANIMATIONS ───── */
         @keyframes fadeUp {
@@ -488,7 +561,7 @@
             <div class="dropdown-content">
                 <a href="team2026.html">2026</a>
                 <a href="team2025.html">2025</a>
-                <a href="team2024.html">2024</a>
+               
             </div>
         </div>
         <a href="gallery.html">Gallery</a>
@@ -507,7 +580,6 @@
     <span class="sub-label">Team</span>
     <a href="team2026.html" style="padding-left:12%">2026</a>
     <a href="team2025.html" style="padding-left:12%">2025</a>
-    <a href="team2024.html" style="padding-left:12%">2024</a>
     <a href="gallery.html">Gallery</a>
     <a href="sponsors.html">Sponsors</a>
     <a href="achievements.html">Achievements</a>
@@ -538,10 +610,7 @@
         <div class="stat-chip-num">7</div>
         <div class="stat-chip-label">Years Active</div>
     </div>
-    <div class="stat-chip reveal reveal-d3">
-        <div class="stat-chip-num">IIT·MIT·BITS</div>
-        <div class="stat-chip-label">Competed At</div>
-    </div>
+    
 </div>
 
 <!-- FILTER TABS -->

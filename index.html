@@ -667,105 +667,139 @@
         .slider-corner.br { bottom: 10px; right: 10px; border-bottom: 2px solid var(--cyan); border-right: 2px solid var(--cyan); }
 
         /* ───── FOOTER ───── */
-        .main-footer {
-            position: relative;
-            z-index: 1;
-            background: #000;
-            border-top: 1px solid var(--cyan-border);
-            padding: clamp(40px, 8vw, 80px) clamp(5%, 10%, 160px) 0;
-        }
+       .main-footer {
+    position: relative;
+    z-index: 1;
+    background: #000;
+    border-top: 1px solid var(--cyan-border);
+    padding: clamp(40px, 8vw, 80px) clamp(5%, 10%, 160px) 0;
+}
 
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            padding-bottom: 50px;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
+/* ===== TOP GRID (TEXT) ===== */
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 60px; /* balanced spacing */
+    padding-bottom: 50px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    text-align: center;
+}
 
-        .footer-section h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.75rem;
-            letter-spacing: 3px;
-            color: var(--cyan);
-            margin-bottom: 16px;
-            text-transform: uppercase;
-        }
+.footer-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-        .footer-section p,
-        .footer-section a {
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.45);
-            line-height: 1.8;
-            display: block;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
+.footer-section h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    color: var(--cyan);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
 
-        .footer-section a:hover { color: var(--cyan); }
+.footer-section p,
+.footer-section a {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.6;
+    text-decoration: none;
+    transition: color 0.2s;
+}
 
-        .contact-title {
-            font-size: 0.65rem !important;
-            letter-spacing: 2px;
-            color: var(--cyan) !important;
-            text-transform: uppercase;
-            margin-top: 4px;
-        }
+.footer-section a:hover {
+    color: var(--cyan);
+}
 
-        .footer-branding {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 32px 0;
-        }
+.contact-title {
+    font-size: 0.65rem !important;
+    letter-spacing: 2px;
+    color: var(--cyan) !important;
+    text-transform: uppercase;
+    margin-top: 4px;
+}
 
-        .footer-logo, .partner-logo {
-            height: 48px;
-            object-fit: contain;
-            opacity: 0.7;
-            filter: brightness(0) invert(1);
-            transition: opacity 0.3s;
-        }
+/* ===== LOGO + SOCIAL ROW (PERFECT ALIGNMENT) ===== */
+.footer-branding {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    padding: 32px 0;
+}
 
-        .footer-logo:hover, .partner-logo:hover { opacity: 1; }
+/* align each column perfectly */
+.footer-branding .footer-logo {
+    justify-self: center;
+    transform: translateX(-28px);
+}
 
-        .social-links {
-            display: flex;
-            gap: 12px;
-        }
+.footer-branding .social-links {
+    justify-self: center;
+}
 
-        .social-links a {
-            width: 40px; height: 40px;
-            border: 1px solid var(--cyan-border);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(255,255,255,0.5);
-            font-size: 0.85rem;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
+.footer-branding .partner-logo {
+    justify-self: center;
+    transform: translateX(30px);
+}
 
-        .social-links a:hover {
-            color: var(--cyan);
-            border-color: var(--cyan);
-            box-shadow: 0 0 20px rgba(53,177,198,0.3);
-            transform: translateY(-3px);
-        }
+/* logos */
+.footer-logo,
+.partner-logo {
+    height: 65px; /* slightly balanced */
+    object-fit: contain;
+    opacity: 0.7;
+    filter: brightness(0) invert(1);
+    transition: all 0.3s ease;
+}
 
-        .footer-copyright {
-            padding: 20px 0;
-            text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
+.footer-logo:hover,
+.partner-logo:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
 
-        .footer-copyright p {
-            font-size: 0.65rem;
-            letter-spacing: 2px;
-            color: rgba(255,255,255,0.2);
-            text-transform: uppercase;
-        }
+/* ===== SOCIAL ICONS ===== */
+.social-links {
+    display: flex;
+    gap: 14px;
+}
+
+.social-links a {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--cyan-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.5);
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.social-links a:hover {
+    color: var(--cyan);
+    border-color: var(--cyan);
+    box-shadow: 0 0 20px rgba(53,177,198,0.3);
+    transform: translateY(-3px);
+}
+
+/* ===== COPYRIGHT ===== */
+.footer-copyright {
+    padding: 20px 0;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.footer-copyright p {
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.2);
+    text-transform: uppercase;
+}
 
         /* ───── REVEAL ───── */
         .reveal {
@@ -877,7 +911,6 @@
             <div class="dropdown-content">
                 <a href="team2026.html">2026</a>
                 <a href="team2025.html">2025</a>
-                <a href="team2024.html">2024</a>
             </div>
         </div>
         <a href="gallery.html">Gallery</a>
@@ -912,11 +945,11 @@
     <div class="hero-scanlines"></div>
 
     <div class="hero-content">
-        <span class="hero-eyebrow">VIT Vellore · FPV Drone Racing</span>
+        <span class="hero-eyebrow">   ·   VIT Vellore    ·</span>
         <h1 class="hero-title">ROTOR FPV</h1>
         <p class="hero-sub">Build &nbsp;·&nbsp; Fly &nbsp;·&nbsp; Crash &nbsp;·&nbsp; Repeat</p>
         <div class="hero-cta">
-            <a href="about.html" class="btn-primary">Our Story</a>
+            <a href="about.html" class="btn-primary">About us</a>
             <a href="achievements.html" class="btn-outline">Achievements</a>
         </div>
     </div>
@@ -931,40 +964,48 @@
 <!-- ABOUT -->
 <section class="section-about">
     <div class="about-grid">
+        
         <div class="about-body">
-            <span class="about-label reveal">Team Overview</span>
+            <span class="about-label reveal">Since 2018</span>
+            
             <h2 class="about-heading reveal reveal-delay-1">
                 Engineering the<br>
-                <span>Skies of Tomorrow</span>
+                <span>Future of Flight</span>
             </h2>
+
             <p class="reveal reveal-delay-2">
-                Team Rotor FPV is a dedicated drone development team at <strong>VIT, Vellore</strong>, focused on building high-performance FPV drones and advancing aerial robotics. We specialize in drone design, assembly, and real-time flight testing.
+                Team Rotor FPV is VIT Vellore’s dedicated drone development team, focused on building high-performance FPV drones and advancing aerial robotics. We engineer systems across <strong>racing, freestyle, and autonomous domains</strong>, combining aerodynamics, embedded systems, and real-time control.
             </p>
+
             <p class="reveal reveal-delay-3">
-                We work out of <strong>GDN 129</strong>, where all our drones are designed and built from scratch. Flight testing is carried out at <strong>SJT Ground</strong> and <strong>KC Lawn</strong>, ensuring optimal performance under real-world conditions.
+                Operating from <strong>GDN 129</strong>, we manage the complete drone development lifecycle — from design and assembly to system optimization — with real-world testing at <strong>SJT Ground</strong> and <strong>KC Lawn</strong>. Competing at national and international levels, we continuously refine performance, precision, and reliability.
             </p>
         </div>
+
         <div class="about-stats">
             <div class="stat-card reveal reveal-delay-1">
-                <div class="stat-number">3+</div>
-                <div class="stat-label">Years Active</div>
+                <div class="stat-number">2018</div>
+                <div class="stat-label">Founded</div>
             </div>
+
             <div class="stat-card reveal reveal-delay-2">
                 <div class="stat-number">10+</div>
                 <div class="stat-label">Drones Built</div>
             </div>
+
             <div class="stat-card reveal reveal-delay-3">
-                <div class="stat-number">#1</div>
-                <div class="stat-label">ISDC '26</div>
+                <div class="stat-number">4+</div>
+                <div class="stat-label">Competitions</div>
             </div>
+
             <div class="stat-card reveal reveal-delay-4">
-                <div class="stat-number">VIT</div>
-                <div class="stat-label">Vellore Campus</div>
+                <div class="stat-number">#1</div>
+                <div class="stat-label">ISDC 2026</div>
             </div>
         </div>
+
     </div>
 </section>
-
 <!-- ACHIEVEMENT -->
 <section class="section-achievement">
     <span class="section-label reveal">Milestones</span>
@@ -976,7 +1017,7 @@
         </div>
         <div>
             <h3 class="achieve-title">1st Prize in ISDC '26</h3>
-            <p class="achieve-sub">MIT Manipal &nbsp;·&nbsp; Indian Space Drone Championship</p>
+            <p class="achieve-sub">MIT Manipal &nbsp;·&nbsp; International Space Drone Challenge</p>
         </div>
         <span class="achieve-badge">Gold</span>
     </div>
@@ -1002,7 +1043,7 @@
     <div class="footer-grid">
         <div class="footer-section">
             <h3>Saarika Rajen</h3>
-            <p>+91-8919936428</p>
+            <p>  +91-8919936428</p>
             <p class="contact-title">Team Captain</p>
         </div>
         <div class="footer-section">
